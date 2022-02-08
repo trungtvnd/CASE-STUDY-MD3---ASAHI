@@ -23,7 +23,9 @@ public class LoginServlet extends HttpServlet {
         String user = req.getParameter("username");
         String pass = req.getParameter("password");
 
+
         if(user.equalsIgnoreCase("admin") && pass.equalsIgnoreCase("admin")){
+            req.setAttribute("username", user);
              requestDispatcher = req.getRequestDispatcher("login/home.jsp");
             requestDispatcher.forward(req, resp);
         }else {

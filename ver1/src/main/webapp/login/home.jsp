@@ -16,7 +16,15 @@
   </style>
 </head>
 <body>
-
+<div>
+  <table>
+    <tr>
+      <td>Welcome ${username}</td>
+      <td><a href="/login">Log out</a></td>
+    </tr>
+  </table>
+  
+</div>
 <div class="jumbotron text-center" style="margin-bottom:0">
   <h1>MANAGEMENT SYSTEM</h1>
   <p STYLE="font-size: 50px">LIBRARY ASAHI</p>
