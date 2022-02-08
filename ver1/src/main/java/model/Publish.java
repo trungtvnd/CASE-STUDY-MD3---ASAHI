@@ -2,14 +2,18 @@ package model;
 
 public class Publish {
     private int id;
-    private String code;
     private String name;
     private String email;
     private String address;
 
-    public Publish(int id, String code, String name, String email, String address) {
+    public Publish(String name, String email, String address) {
+        this.name = name;
+        this.email = email;
+        this.address = address;
+    }
+
+    public Publish(int id, String name, String email, String address) {
         this.id = id;
-        this.code = code;
         this.name = name;
         this.email = email;
         this.address = address;
@@ -23,13 +27,6 @@ public class Publish {
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public String getName() {
         return name;

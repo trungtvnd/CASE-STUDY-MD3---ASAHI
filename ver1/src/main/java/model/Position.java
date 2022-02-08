@@ -2,15 +2,20 @@ package model;
 
 public class Position {
     private int id;
-    private String code;
     private String name;
     private String describe;
     private int quantityLimit;
     private int quantity;
 
-    public Position(int id, String code, String name, String describe, int quantityLimit, int quantity) {
+    public Position(String name, String describe, int quantityLimit, int quantity) {
+        this.name = name;
+        this.describe = describe;
+        this.quantityLimit = quantityLimit;
+        this.quantity = quantity;
+    }
+
+    public Position(int id, String name, String describe, int quantityLimit, int quantity) {
         this.id = id;
-        this.code = code;
         this.name = name;
         this.describe = describe;
         this.quantityLimit = quantityLimit;
@@ -25,13 +30,6 @@ public class Position {
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public String getName() {
         return name;

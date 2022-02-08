@@ -13,6 +13,12 @@ public class Author {
         this.email = email;
     }
 
+    public Author(String name, String address, String email) {
+        this.name = name;
+        this.address = address;
+        this.email = email;
+    }
+
     public int getId() {
         return id;
     }

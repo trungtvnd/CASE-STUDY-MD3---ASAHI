@@ -1,7 +1,6 @@
 package service.book;
 
 import model.Book;
-import service.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ public class BookDAO implements IBookDAO{
     private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "12345678";
-    private final MyConnection myConnection = new MyConnection();
+
 
     private static final String INSERT_BOOKS_SQL = "INSERT INTO books_list (name, authorID, describe, language, status, type, publishID, positionID, yearPublish, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String SELECT_BOOKS_BY_ID = "select * from books_list where id =?";
