@@ -14,7 +14,13 @@ public class BookDAO implements IBookDAO {
 
 
     private static final String INSERT_BOOKS_SQL = "INSERT INTO books(name, describle, language, status, type, image, yearPublish, idPublish, idAuthor, idPosition) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    private static final String SELECT_BOOKS_BY_ID = "select * from books where id =?";
+    private static final String SELECT_BOOKS_BY_ID = "SELECT books.id, books.name 'Name Of Book', a.name 'Author', books.describle 'Describe', books.language 'Language', books.status 'Status', books.type 'Type',p.name 'Publish', positions.name 'Position', books.yearPublish 'Year', books.image 'Image'\n" +
+            "FROM books \n" +
+            "JOIN author a ON a.id = books.idAuthor\n" +
+            "JOIN publish p ON p.id = books.idPublish\n" +
+            "JOIN positions ON positions.id = books.idPosition WHERE books.id=?;";
+
+
     private static final String SELECT_ALL_BOOKS = "SELECT books.id, books.name 'Name Of Book', a.name 'Author', books.describle 'Describe', books.language 'Language', books.status 'Status', books.type 'Type',p.name 'Publish', positions.name 'Position', books.yearPublish 'Year', books.image 'Image'\n" +
             "FROM books \n" +
             "JOIN author a ON a.id = books.idAuthor\n" +
@@ -69,17 +75,17 @@ public class BookDAO implements IBookDAO {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                String name = rs.getString("name");
-                String authorID = rs.getString("idAuthor");
-                String describe = rs.getString("describle");
-                String language = rs.getString("language");
-                String status = rs.getString("status");
-                String type = rs.getString("type");
-                String publish = rs.getString("idPublish");
-                String positionID = rs.getString("idPosition");
-                String yearPublish = rs.getString("yearPublish");
-                String image = rs.getString("image");
-                book = new Book(id, name, authorID, describe, language, status, type, publish, positionID, yearPublish, image);
+                String name = rs.getString("Name of Book");
+                String author = rs.getString("Author");
+                String describe = rs.getString("Describe");
+                String language = rs.getString("Language");
+                String status = rs.getString("Status");
+                String type = rs.getString("Type");
+                String publish = rs.getString("Publish");
+                String position = rs.getString("Position");
+                String yearPublish = rs.getString("Year");
+                String image = rs.getString("Image");
+                book = new Book(id, name, author, describe, language, status, type, publish, position, yearPublish, image);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());

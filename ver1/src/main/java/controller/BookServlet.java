@@ -60,11 +60,11 @@ public class BookServlet extends HttpServlet {
         List<Publish> publishes = publishDAO.selectAll();
         int id = Integer.parseInt(req.getParameter("id"));
         Book book = bookDAO.selectBook(id);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("library/edit.jsp");
         req.setAttribute("book", book);
         req.setAttribute("authors", authors);
         req.setAttribute("positions", positions);
         req.setAttribute("publishes", publishes);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("library/edit.jsp");
         try {
             dispatcher.forward(req, resp);
         } catch (ServletException | IOException e) {
@@ -108,14 +108,14 @@ public class BookServlet extends HttpServlet {
             case "create":
                 createPost(req, resp);
                 break;
-            case "editPost":
+            case "edit":
                 editPost(req, resp);
                 break;
         }
     }
 
     private void editPost(HttpServletRequest req, HttpServletResponse resp) {
-
+        RequestDispatcher requestDispatcher;
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
         int authorID = Integer.parseInt(req.getParameter("authorID"));
@@ -134,9 +134,9 @@ public class BookServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        RequestDispatcher dispatcher = req.getRequestDispatcher("library/edit.jsp");
+         requestDispatcher = req.getRequestDispatcher("library/edit.jsp");
         try {
-            dispatcher.forward(req, resp);
+            requestDispatcher.forward(req, resp);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }

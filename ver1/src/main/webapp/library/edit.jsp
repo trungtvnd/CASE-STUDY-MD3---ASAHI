@@ -14,7 +14,7 @@
 </head>
 <body>
 <center>
-    <h1>Publish Management</h1>
+    <h1>Books Management</h1>
     <h2>
         <a href="books?action=books">List All Books</a>
     </h2>
@@ -212,7 +212,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" align="center">
+                <td colspan="4" align="center">
                     <input type="submit" value="Save"/>
                 </td>
             </tr>
