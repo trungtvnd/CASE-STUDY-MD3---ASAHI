@@ -33,6 +33,9 @@ public class PositionServlet extends HttpServlet {
                 case "edit":
                     showEditForm(req, resp);
                     break;
+                case "view":
+                    view(req, resp);
+                    break;
                 default:
                     listPosition(req, resp);
                     break;
@@ -42,6 +45,23 @@ public class PositionServlet extends HttpServlet {
         }
     }
 
+    private void view(HttpServletRequest req, HttpServletResponse resp) {
+//        int id = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
+        Position position = positionDao.select(name);
+        RequestDispatcher requestDispatcher;
+        if(position==null){
+            requestDispatcher = req.getRequestDispatcher("error-404.jsp");
+        }else {
+            req.setAttribute("position", position);
+            requestDispatcher = req.getRequestDispatcher("position/viewPosition.jsp");
+        }
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) {

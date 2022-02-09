@@ -1,11 +1,9 @@
 package controller;
 
-import model.Author;
-import model.Book;
-import model.Position;
-import model.Publish;
+import model.*;
 import service.author.AuthorDAO;
 import service.book.BookDAO;
+import service.join.JoinPositionDAO;
 import service.position.PositionDao;
 import service.publish.PublishDAO;
 
@@ -17,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/books")
@@ -27,6 +24,7 @@ public class BookServlet extends HttpServlet {
     private final AuthorDAO authorDAO = new AuthorDAO();
     private final PublishDAO publishDAO = new PublishDAO();
     private final PositionDao positionDao = new PositionDao();
+    private final JoinPositionDAO joinPositionDAO = new JoinPositionDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,12 +43,75 @@ public class BookServlet extends HttpServlet {
                 case "delete":
                     delete(req,resp);
                     break;
+                case "view":
+                    view(req, resp);
+                    break;
+                case "joinPosition":
+                    joinPosition(req, resp);
+                    break;
+                case "joinStatus":
+                    joinStatus(req, resp);
+                    break;
+                case "joinType":
+                    joinType(req, resp);
+                    break;
+
                 default:
                     listBook(req, resp);
                     break;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void joinType(HttpServletRequest req, HttpServletResponse resp) {
+        List<JoinType> joinTypes = joinPositionDAO.selectAllType();
+        req.setAttribute("joinTypes", joinTypes);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("joinType/view.jsp");
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void joinStatus(HttpServletRequest req, HttpServletResponse resp) {
+        List<JoinStatus> joinStatuses = joinPositionDAO.selectAllStatus();
+        req.setAttribute("joinStatuses", joinStatuses);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("joinStatus/view.jsp");
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void joinPosition(HttpServletRequest req, HttpServletResponse resp) {
+        List<JoinPosition> joinPositions = joinPositionDAO.selectAllPosition();
+        req.setAttribute("joinPositions", joinPositions);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("joinPosition/view.jsp");
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void view(HttpServletRequest req, HttpServletResponse resp) {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Book book = bookDAO.selectBook(id);
+        RequestDispatcher requestDispatcher;
+        if(book==null){
+            requestDispatcher = req.getRequestDispatcher("error-404.jsp");
+        }else {
+            req.setAttribute("book", book);
+            requestDispatcher = req.getRequestDispatcher("library/viewBook.jsp");
+        }
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
         }
     }
 

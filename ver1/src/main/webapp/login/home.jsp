@@ -41,13 +41,13 @@
         <a class="nav-link" href="${pageContext.request.contextPath}/books">SHOW ALL</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">KIND OF BOOK</a>
+        <a class="nav-link" href="/books?action=joinType">KIND OF BOOK</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">AUTHOR</a>
+        <a class="nav-link" href="/books?action=joinPosition">STATISTIC BY POSITION</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">YEAR PUBLISHING</a>
+        <a class="nav-link" href="/books?action=joinStatus">STATISTIC BY STATUS</a>
       </li>
     </ul>
   </div>
