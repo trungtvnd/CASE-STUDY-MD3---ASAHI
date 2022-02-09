@@ -8,6 +8,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/library/create.jsp" value="file://$PROJECT_DIR$/src/main/webapp/library" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/library/edit.jsp" value="file://$PROJECT_DIR$/src/main/webapp/library" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/publish/view.jsp" value="file://$PROJECT_DIR$/src/main/webapp/publish" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/register/register.jsp" value="file://$PROJECT_DIR$/src/main/webapp/register" />
       </map>
     </option>
   </component>
