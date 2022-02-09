@@ -29,6 +29,8 @@ public class BookDAO implements IBookDAO {
     private static final String DELETE_BOOKS_SQL = "delete from books where id = ?;";
     private static final String UPDATE_BOOKS_SQL = "update books set name = ?,describle= ?, language =?, status=?, type=?, image=?, yearPublish=?,idPublish=?,idAuthor=?,idPosition=?  WHERE id = ?;";
 
+
+
     public BookDAO() {
     }
 

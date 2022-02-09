@@ -16,6 +16,9 @@ public class PositionDao implements InterfaceDAO<Position> {
     private static final String SELECT_POSITION_BY_ID = "select id,name,describePosition,quantityLimit,quantity from positions where id =?";
     private static final String SELECT_ALL_POSITION = "select * from positions";
     private static final String UPDATE_POSITION_SQL = "update positions set name = ?,describePosition= ?, quantityLimit =? ,quantity = ? where id = ?;";
+    private static final String SELECT_POSITION_BY_NAME = "select id,name,describePosition,quantityLimit,quantity from positions where name =?";
+
+
 
     public PositionDao() {
     }
@@ -106,5 +109,25 @@ public class PositionDao implements InterfaceDAO<Position> {
             rowUpdated = statement.executeUpdate() > 0;
         }
         return rowUpdated;
+    }
+
+    public Position select(String name) {
+        Position position = null;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_POSITION_BY_NAME);) {
+            preparedStatement.setString(1, name);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String describePosition = rs.getString("describePosition");
+                int quantityLimit = rs.getInt("quantityLimit");
+                int quantity = rs.getInt("quantity");
+                position = new Position(id, name, describePosition, quantityLimit, quantity);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return position;
     }
 }

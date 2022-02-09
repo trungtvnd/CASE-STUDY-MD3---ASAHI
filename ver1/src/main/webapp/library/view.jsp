@@ -72,14 +72,16 @@
         <c:forEach var="book" items="${requestScope['books']}">
             <tr>
                 <td>${book.getId()}</td>
-                <td>${book.getName()}</td>
+                <td ><a href="${pageContext.request.contextPath}/books?action=view&id=${book.getId()}">${book.getName()}</a></td>
+<%--                <td>${book.getName()}</td>--%>
                 <td>${book.getAuthorID()}</td>
                 <td>${book.getDescribe()}</td>
                 <td>${book.getLanguage()}</td>
                 <td>${book.getStatus()}</td>
                 <td>${book.getType()}</td>
                 <td>${book.getPublish()}</td>
-                <td>${book.getPositionID()}</td>
+                <td ><a class="getLink" href="${pageContext.request.contextPath}/positions?action=view&name=${book.getPositionID()}">${book.getPositionID()}</a></td>
+<%--                <td>${book.getPositionID()}</td>--%>
                 <td>${book.getYearPublish()}</td>
                 <td><img class="imgTable" src="${book.getImage()}" alt=""></td>
                 <td><button class="btn btn-success btn-sm"><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=edit&id=${book.getId()}">Edit</a></button></td>
