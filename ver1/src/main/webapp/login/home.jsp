@@ -19,7 +19,7 @@
 <div>
   <table>
     <tr>
-      <td>Welcome ${username}</td>
+      <td>Welcome: ${username}</td>
       <td><a href="/login">Log out</a></td>
     </tr>
   </table>

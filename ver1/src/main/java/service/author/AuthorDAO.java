@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorDAO implements InterfaceDAO<Author> {
-    private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement?useSSL=false";
+    private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "12345678";
 
-    private static final String INSERT_AUTHORS_SQL = "INSERT INTO authors (name, address, email) VALUES (?, ?, ?);";
-    private static final String SELECT_AUTHORS_BY_ID = "select id,name,address,email from authors where id =?";
-    private static final String SELECT_ALL_AUTHORS = "select * from authors";
-    private static final String DELETE_AUTHORS_SQL = "delete from authors where id = ?;";
-    private static final String UPDATE_AUTHORS_SQL = "update authors set name = ?,address= ?, email =? where id = ?;";
+    private static final String INSERT_AUTHORS_SQL = "INSERT INTO author (name, address, email) VALUES (?, ?, ?);";
+    private static final String SELECT_AUTHORS_BY_ID = "select id,name,address,email from author where id =?";
+    private static final String SELECT_ALL_AUTHORS = "select * from author";
+    private static final String DELETE_AUTHORS_SQL = "delete from author where id = ?;";
+    private static final String UPDATE_AUTHORS_SQL = "update author set name = ?,address= ?, email =? where id = ?;";
 
     public AuthorDAO(){}
 
@@ -110,4 +110,5 @@ public class AuthorDAO implements InterfaceDAO<Author> {
         }
         return rowUpdated;
     }
+
 }

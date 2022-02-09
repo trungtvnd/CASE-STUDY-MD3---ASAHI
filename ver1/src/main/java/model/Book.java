@@ -13,6 +13,39 @@ public class Book {
     private String yearPublish;
     private String image;
 
+    public Book(int id, String name, String describe, String language, String status, String type, String yearPublish, String image) {
+        this.id = id;
+        this.name = name;
+        this.describe = describe;
+        this.language = language;
+        this.status = status;
+        this.type = type;
+        this.yearPublish = yearPublish;
+        this.image = image;
+    }
+
+    public Book(String name, String describe, String language, String status, String type, String yearPublish, String image) {
+        this.name = name;
+        this.describe = describe;
+        this.language = language;
+        this.status = status;
+        this.type = type;
+        this.yearPublish = yearPublish;
+        this.image = image;
+    }
+
+    public Book(String name, String authorID, String describe, String language, String status, String type, String publish, String positionID, String yearPublish, String image) {
+        this.name = name;
+        this.authorID = authorID;
+        this.describe = describe;
+        this.language = language;
+        this.status = status;
+        this.type = type;
+        this.publish = publish;
+        this.positionID = positionID;
+        this.yearPublish = yearPublish;
+        this.image = image;
+    }
 
     public Book(int id, String name, String authorID, String describe, String language, String status, String type, String publish, String positionID, String yearPublish, String image) {
         this.id = id;

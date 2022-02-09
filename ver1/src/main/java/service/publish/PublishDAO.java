@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PublishDAO implements InterfaceDAO<Publish> {
-    private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement?useSSL=false";
+    private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "12345678";
 

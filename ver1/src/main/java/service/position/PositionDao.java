@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PositionDao implements InterfaceDAO<Position> {
-    private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement?useSSL=false";
+    private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "12345678";
 
-    private static final String INSERT_POSITION_SQL = "INSERT INTO positionlibrary (name, describePosition, quantityLimit, quantity) VALUES (?, ?, ?, ?);";
-    private static final String SELECT_POSITION_BY_ID = "select id,name,describePosition,quantityLimit,quantity from positionlibrary where id =?";
-    private static final String SELECT_ALL_POSITION = "select * from positionlibrary";
-    private static final String DELETE_POSITION_SQL = "delete from positionlibrary where id = ?;";
-    private static final String UPDATE_POSITION_SQL = "update positionlibrary set name = ?,describePosition= ?, quantityLimit =? ,quantity = ? where id = ?;";
+    private static final String INSERT_POSITION_SQL = "INSERT INTO positions (name, describePosition, quantityLimit, quantity) VALUES (?, ?, ?, ?);";
+    private static final String SELECT_POSITION_BY_ID = "select id,name,describePosition,quantityLimit,quantity from positions where id =?";
+    private static final String SELECT_ALL_POSITION = "select * from positions";
+    private static final String DELETE_POSITION_SQL = "delete from positions where id = ?;";
+    private static final String UPDATE_POSITION_SQL = "update positions set name = ?,describePosition= ?, quantityLimit =? ,quantity = ? where id = ?;";
 
     public PositionDao() {
     }

@@ -5,7 +5,8 @@
   Time: 4:24 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8"  %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -32,7 +33,13 @@
             <tr>
                 <th>Author:</th>
                 <td>
-                    <label for="authorID"></label><input type="text" name="authorID" id="authorID" size="45"/>
+                    <label>
+                        <select name="author">
+                            <c:forEach items="${authors}" var="author">
+                                <option value="${author.getId()}">${author.getName()}</option>
+                            </c:forEach>
+                        </select>
+                    </label>
                 </td>
             </tr>
             <tr>
@@ -50,26 +57,50 @@
             <tr>
                 <th>Status:</th>
                 <td>
-                    <label for="status"></label><input type="text" name="status" id="status" size="15"/>
+                    <label><select name="status" id="status">
+                        <option value="New">New</option>
+                        <option value="Old">Old</option>
+                    </select></label>
                 </td>
             </tr>
             <tr>
                 <th>Type:</th>
                 <td>
-                    <label for="type"></label><input type="text" name="type" id="type" size="15"/>
+                    <label><select name="type" id="type">
+                        <option value="Political & Law">Political & Law</option>
+                        <option value="Science">Science</option>
+                        <option value="Economic">Economic</option>
+                        <option value="Literature & Art">Literature & Art</option>
+                        <option value="Cultural & Historical">Cultural & Historical</option>
+                        <option value="Curriculum">Curriculum</option>
+                        <option value="Story & Novel">Story & Novel</option>
+                        <option value="Mentality, Spirituality & Religion">Mentality, Spirituality & Religion</option>
+                        <option value="Children">Children</option>
+                    </select></label>
                 </td>
             </tr>
             <tr>
                 <th>Publish:</th>
                 <td>
-                    <label for="publish"></label><input type="text" name="publish" id="publish" size="15"/>
+                    <label>
+                        <select name="publish">
+                            <c:forEach items="${publishes}" var="publish">
+                                <option value="${publish.getId()}">${publish.getName()}</option>
+                            </c:forEach>
+                        </select>
+                    </label>
                 </td>
             </tr>
             <tr>
                 <th>Position:</th>
                 <td>
-                    <label for="positionID"></label><input type="text" name="positionID" id="positionID" size="15"/>
-                </td>
+                    <label>
+                        <select name="position">
+                            <c:forEach items="${positions}" var="position">
+                                <option value="${position.getId()}">${position.getName()}</option>
+                            </c:forEach>
+                        </select>
+                    </label></td>
             </tr>
             <tr>
                 <th>Year Publish:</th>

@@ -1,7 +1,13 @@
 package controller;
 
+import model.Author;
 import model.Book;
+import model.Position;
+import model.Publish;
+import service.author.AuthorDAO;
 import service.book.BookDAO;
+import service.position.PositionDao;
+import service.publish.PublishDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,12 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/books")
 public class BookServlet extends HttpServlet {
 
-    BookDAO bookDAO = new BookDAO();
+    private final BookDAO bookDAO = new BookDAO();
+    private final AuthorDAO authorDAO = new AuthorDAO();
+    private final PublishDAO publishDAO = new PublishDAO();
+    private final PositionDao positionDao = new PositionDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,7 +40,7 @@ public class BookServlet extends HttpServlet {
                     createGet(req, resp);
                     break;
                 case "edit":
-
+                    editGet(req, resp);
                     break;
                 case "delete":
 
@@ -44,7 +54,31 @@ public class BookServlet extends HttpServlet {
         }
     }
 
+    private void editGet(HttpServletRequest req, HttpServletResponse resp) {
+        List<Author> authors = authorDAO.selectAll();
+        List<Position> positions = positionDao.selectAll();
+        List<Publish> publishes = publishDAO.selectAll();
+        int id = Integer.parseInt(req.getParameter("id"));
+        Book book = bookDAO.selectBook(id);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("library/edit.jsp");
+        req.setAttribute("book", book);
+        req.setAttribute("authors", authors);
+        req.setAttribute("positions", positions);
+        req.setAttribute("publishes", publishes);
+        try {
+            dispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void createGet(HttpServletRequest req, HttpServletResponse resp) {
+        List<Author> authors = authorDAO.selectAll();
+        List<Position> positions = positionDao.selectAll();
+        List<Publish> publishes = publishDAO.selectAll();
+        req.setAttribute("authors", authors);
+        req.setAttribute("positions", positions);
+        req.setAttribute("publishes", publishes);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/create.jsp");
         try {
             requestDispatcher.forward(req, resp);
@@ -74,23 +108,54 @@ public class BookServlet extends HttpServlet {
             case "create":
                 createPost(req, resp);
                 break;
+            case "editPost":
+                editPost(req, resp);
+                break;
         }
     }
 
-    private void createPost(HttpServletRequest req, HttpServletResponse resp) {
+    private void editPost(HttpServletRequest req, HttpServletResponse resp) {
+
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
-        String author = req.getParameter("author");
+        int authorID = Integer.parseInt(req.getParameter("authorID"));
         String describe = req.getParameter("describe");
         String language = req.getParameter("language");
         String status = req.getParameter("status");
         String type = req.getParameter("type");
-        String publish = req.getParameter("publish");
-        String positionID = req.getParameter("positionID");
+        int publish = Integer.parseInt(req.getParameter("publish"));
+        int positionID = Integer.parseInt(req.getParameter("positionID"));
+        String yearPublish = req.getParameter("yearPublish");
+        String image = req.getParameter("image");
+
+        Book book = new Book(id,name, describe, language, status, type, yearPublish, image);
+        try {
+            bookDAO.updateBook(book, authorID, positionID, publish);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        RequestDispatcher dispatcher = req.getRequestDispatcher("library/edit.jsp");
+        try {
+            dispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createPost(HttpServletRequest req, HttpServletResponse resp) {
+        String name = req.getParameter("name");
+        int author = Integer.parseInt(req.getParameter("author"));
+        String describe = req.getParameter("describe");
+        String language = req.getParameter("language");
+        String status = req.getParameter("status");
+        String type = req.getParameter("type");
+        int publish = Integer.parseInt(req.getParameter("publish"));
+        int positionID = Integer.parseInt(req.getParameter("position"));
         String yearPublish = req.getParameter("yearPublish");
         String image = req.getParameter("image");
         try {
-            bookDAO.insertBook(new Book(id, name, author, describe, language, status, type, publish, positionID, yearPublish, image));
+            Book book = new Book(name, describe, language, status, type, yearPublish, image);
+            bookDAO.insertBook(book, author, positionID, publish);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/create.jsp");
             try {
                 requestDispatcher.forward(req,resp);
