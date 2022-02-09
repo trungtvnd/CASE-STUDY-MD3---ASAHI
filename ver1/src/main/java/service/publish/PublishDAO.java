@@ -16,10 +16,10 @@ public class PublishDAO implements InterfaceDAO<Publish> {
     private static final String INSERT_PUBLISH_SQL = "INSERT INTO publish (name, address, email) VALUES (?, ?, ?);";
     private static final String SELECT_PUBLISH_BY_ID = "select id,name,address,email from publish where id =?";
     private static final String SELECT_ALL_PUBLISH = "select * from publish";
-    private static final String DELETE_PUBLISH_SQL = "delete from publish where id = ?;";
     private static final String UPDATE_PUBLISH_SQL = "update publish set name = ?,address= ?, email =? where id = ?;";
 
-    public PublishDAO (){}
+    public PublishDAO() {
+    }
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -58,7 +58,7 @@ public class PublishDAO implements InterfaceDAO<Publish> {
                 String name = rs.getString("name");
                 String address = rs.getString("address");
                 String email = rs.getString("email");
-                publish = new Publish(id, name,address , email);
+                publish = new Publish(id, name, address, email);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -90,12 +90,7 @@ public class PublishDAO implements InterfaceDAO<Publish> {
 
     @Override
     public boolean delete(int id) throws SQLException {
-        boolean rowDeleted;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_PUBLISH_SQL);) {
-            statement.setInt(1, id);
-            rowDeleted = statement.executeUpdate() > 0;
-        }
-        return rowDeleted;
+        return false;
     }
 
     @Override

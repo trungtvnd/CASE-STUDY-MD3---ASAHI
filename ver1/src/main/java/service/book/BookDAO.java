@@ -124,7 +124,12 @@ public class BookDAO implements IBookDAO {
 
     @Override
     public boolean deleteBook(int id) throws SQLException {
-        return false;
+        boolean rowDeleted;
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_BOOKS_SQL);) {
+            statement.setInt(1, id);
+            rowDeleted = statement.executeUpdate() > 0;
+        }
+        return rowDeleted;
     }
 
     @Override

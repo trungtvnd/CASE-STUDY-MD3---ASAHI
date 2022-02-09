@@ -13,9 +13,12 @@
 </head>
 <body>
 <center>
-    <h1>User Management</h1>
+    <h1>Author Management</h1>
     <h2>
-        <a href="authors?action=authors">List All Users</a>
+        <a href="authors?action=authors">List All Author</a>
+    </h2>
+    <h2>
+        <a href="/books?action=create">Back To Create Book</a>
     </h2>
 </center>
 <div align="center">

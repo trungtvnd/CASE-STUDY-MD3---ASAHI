@@ -26,7 +26,7 @@
             <th>Name</th>
             <th>Address</th>
             <th>Email</th>
-            <th colspan="2">Actions</th>
+            <th>Actions</th>
         </tr>
         <c:forEach var="author" items="${listAuthor}">
             <tr>
@@ -36,7 +36,6 @@
                 <td><c:out value="${author.email}"/></td>
                 <td>
                     <a href="/authors?action=edit&id=${author.id}">Edit</a>
-                    <a href="/authors?action=delete&id=${author.id}">Delete</a>
                 </td>
             </tr>
         </c:forEach>

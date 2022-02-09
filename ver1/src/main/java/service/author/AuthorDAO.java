@@ -15,7 +15,6 @@ public class AuthorDAO implements InterfaceDAO<Author> {
     private static final String INSERT_AUTHORS_SQL = "INSERT INTO author (name, address, email) VALUES (?, ?, ?);";
     private static final String SELECT_AUTHORS_BY_ID = "select id,name,address,email from author where id =?";
     private static final String SELECT_ALL_AUTHORS = "select * from author";
-    private static final String DELETE_AUTHORS_SQL = "delete from author where id = ?;";
     private static final String UPDATE_AUTHORS_SQL = "update author set name = ?,address= ?, email =? where id = ?;";
 
     public AuthorDAO(){}
@@ -89,12 +88,7 @@ public class AuthorDAO implements InterfaceDAO<Author> {
 
     @Override
     public boolean delete(int id) throws SQLException {
-        boolean rowDeleted;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_AUTHORS_SQL);) {
-            statement.setInt(1, id);
-            rowDeleted = statement.executeUpdate() > 0;
-        }
-        return rowDeleted;
+    return false;
     }
 
     @Override

@@ -21,18 +21,15 @@ public class PublishServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        if(action == null){
+        if (action == null) {
             action = "";
         }
-        switch (action){
+        switch (action) {
             case "create":
                 showNewForm(req, resp);
                 break;
             case "edit":
                 showEditForm(req, resp);
-                break;
-            case "delete":
-                delete(req, resp);
                 break;
             default:
                 listAuthor(req, resp);
@@ -40,24 +37,6 @@ public class PublishServlet extends HttpServlet {
         }
     }
 
-    private void delete(HttpServletRequest req, HttpServletResponse resp) {
-        int id = Integer.parseInt(req.getParameter("id"));
-        try {
-            publishDAO.delete(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        List<Publish> listPublish = publishDAO.selectAll();
-        req.setAttribute("listPublish", listPublish);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("publish/view.jsp");
-        try {
-            dispatcher.forward(req, resp);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) {
         int id = Integer.parseInt(req.getParameter("id"));
@@ -81,7 +60,7 @@ public class PublishServlet extends HttpServlet {
 
     }
 
-    private void listAuthor(HttpServletRequest req, HttpServletResponse resp)  {
+    private void listAuthor(HttpServletRequest req, HttpServletResponse resp) {
         List<Publish> listPublish = publishDAO.selectAll();
         req.setAttribute("listPublish", listPublish);
         RequestDispatcher dispatcher = req.getRequestDispatcher("publish/view.jsp");
@@ -96,7 +75,7 @@ public class PublishServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        if (action == null){
+        if (action == null) {
             action = "";
         }
         try {

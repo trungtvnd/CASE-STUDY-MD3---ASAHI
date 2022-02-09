@@ -15,7 +15,6 @@ public class PositionDao implements InterfaceDAO<Position> {
     private static final String INSERT_POSITION_SQL = "INSERT INTO positions (name, describePosition, quantityLimit, quantity) VALUES (?, ?, ?, ?);";
     private static final String SELECT_POSITION_BY_ID = "select id,name,describePosition,quantityLimit,quantity from positions where id =?";
     private static final String SELECT_ALL_POSITION = "select * from positions";
-    private static final String DELETE_POSITION_SQL = "delete from positions where id = ?;";
     private static final String UPDATE_POSITION_SQL = "update positions set name = ?,describePosition= ?, quantityLimit =? ,quantity = ? where id = ?;";
 
     public PositionDao() {
@@ -31,6 +30,7 @@ public class PositionDao implements InterfaceDAO<Position> {
         }
         return connection;
     }
+
     @Override
     public void insert(Position position) throws SQLException {
         System.out.println(INSERT_POSITION_SQL);
@@ -59,7 +59,7 @@ public class PositionDao implements InterfaceDAO<Position> {
                 String describePosition = rs.getString("describePosition");
                 int quantityLimit = rs.getInt("quantityLimit");
                 int quantity = rs.getInt("quantity");
-                position = new Position(id, name, describePosition, quantityLimit,quantity);
+                position = new Position(id, name, describePosition, quantityLimit, quantity);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -80,7 +80,7 @@ public class PositionDao implements InterfaceDAO<Position> {
                 String describePosition = rs.getString("describePosition");
                 int quantityLimit = rs.getInt("quantityLimit");
                 int quantity = rs.getInt("quantity");
-                positions.add(new Position(id, name, describePosition, quantityLimit,quantity));
+                positions.add(new Position(id, name, describePosition, quantityLimit, quantity));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -90,12 +90,7 @@ public class PositionDao implements InterfaceDAO<Position> {
 
     @Override
     public boolean delete(int id) throws SQLException {
-        boolean rowDeleted;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_POSITION_SQL);) {
-            statement.setInt(1, id);
-            rowDeleted = statement.executeUpdate() > 0;
-        }
-        return rowDeleted;
+        return false;
     }
 
     @Override

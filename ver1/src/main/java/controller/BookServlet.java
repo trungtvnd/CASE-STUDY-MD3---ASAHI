@@ -43,7 +43,7 @@ public class BookServlet extends HttpServlet {
                     editGet(req, resp);
                     break;
                 case "delete":
-
+                    delete(req,resp);
                     break;
                 default:
                     listBook(req, resp);
@@ -51,6 +51,24 @@ public class BookServlet extends HttpServlet {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void delete(HttpServletRequest req, HttpServletResponse resp) {
+        int id = Integer.parseInt(req.getParameter("id"));
+        try {
+            bookDAO.deleteBook(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        List<Book> books = bookDAO.selectAllBook();
+        req.setAttribute("books", books);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("library/view.jsp");
+        try {
+            dispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
         }
     }
 

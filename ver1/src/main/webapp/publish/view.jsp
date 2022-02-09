@@ -27,7 +27,7 @@
             <th>Name</th>
             <th>Address</th>
             <th>Email</th>
-            <th colspan="2">Actions</th>
+            <th >Actions</th>
         </tr>
         <c:forEach var="publish" items="${listPublish}">
             <tr>
@@ -37,7 +37,6 @@
                 <td><c:out value="${publish.email}"/></td>
                 <td>
                     <a href="/publishes?action=edit&id=${publish.id}">Edit</a>
-                    <a href="/publishes?action=delete&id=${publish.id}">Delete</a>
                 </td>
             </tr>
         </c:forEach>

@@ -30,33 +30,12 @@ public class AuthorServlet extends HttpServlet {
             case "edit":
                 showEditForm(req, resp);
                 break;
-            case "delete":
-                delete(req, resp);
-                break;
             default:
                 listAuthor(req, resp);
 
         }
     }
 
-    private void delete(HttpServletRequest req, HttpServletResponse resp) {
-        int id = Integer.parseInt(req.getParameter("id"));
-        try {
-            authorDAO.delete(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        List<Author> listAuthor = authorDAO.selectAll();
-        req.setAttribute("listAuthor", listAuthor);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("author/view.jsp");
-        try {
-            dispatcher.forward(req, resp);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) {
         int id = Integer.parseInt(req.getParameter("id"));

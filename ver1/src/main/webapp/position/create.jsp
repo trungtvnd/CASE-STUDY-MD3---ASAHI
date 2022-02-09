@@ -17,6 +17,9 @@
     <h2>
         <a href="positions?action=positions">List All Positions</a>
     </h2>
+    <h2>
+        <a href="/books?action=create">Back To Create Book</a>
+    </h2>
 </center>
 <div align="center">
     <form method="post">

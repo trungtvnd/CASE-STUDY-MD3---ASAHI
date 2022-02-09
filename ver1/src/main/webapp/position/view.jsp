@@ -22,7 +22,7 @@
             <th>Describe</th>
             <th>Quantity Limit</th>
             <th>Quantity</th>
-            <th colspan="2"></th>
+            <th colspan="1"></th>
         </tr>
         <c:forEach var="position" items="${requestScope['positions']}">
             <tr>
@@ -33,7 +33,6 @@
                 <td>${position.getQuantity()}</td>
 
                 <td><button class="btn btn-success btn-sm"><a class="httpDirect" href="${pageContext.request.contextPath}/positions?action=edit&id=${position.getId()}">Edit</a></button></td>
-                <td><button class="btn btn-success btn-sm" ><a class="httpDirect" href="${pageContext.request.contextPath}/positions?action=delete&id=${position.getId()}">Delete</a></button></td>
             </tr>
 
         </c:forEach>

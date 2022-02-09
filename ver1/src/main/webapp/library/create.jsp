@@ -41,6 +41,9 @@
                         </select>
                     </label>
                 </td>
+                <td>
+                    <button><a href="/authors?action=create">Add New Author</a></button>
+                </td>
             </tr>
             <tr>
                 <th>Describe:</th>
@@ -90,6 +93,9 @@
                         </select>
                     </label>
                 </td>
+                <td>
+                    <button><a href="/publishes?action=create">Add New Publish</a></button>
+                </td>
             </tr>
             <tr>
                 <th>Position:</th>
@@ -100,7 +106,11 @@
                                 <option value="${position.getId()}">${position.getName()}</option>
                             </c:forEach>
                         </select>
-                    </label></td>
+                    </label>
+                </td>
+                <td>
+                    <button><a href="/positions?action=create">Add New Position</a></button>
+                </td>
             </tr>
             <tr>
                 <th>Year Publish:</th>

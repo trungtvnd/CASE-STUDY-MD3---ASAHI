@@ -33,9 +33,6 @@ public class PositionServlet extends HttpServlet {
                 case "edit":
                     showEditForm(req, resp);
                     break;
-                case "delete":
-                    delete(req, resp);
-                    break;
                 default:
                     listPosition(req, resp);
                     break;
@@ -45,24 +42,7 @@ public class PositionServlet extends HttpServlet {
         }
     }
 
-    private void delete(HttpServletRequest req, HttpServletResponse resp) {
-        int id = Integer.parseInt(req.getParameter("id"));
-        try {
-            positionDao.delete(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        List<Position> listPosition = positionDao.selectAll();
-        req.setAttribute("positions", listPosition);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("position/view.jsp");
-        try {
-            dispatcher.forward(req, resp);
-        } catch (ServletException | IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private void showEditForm(HttpServletRequest req, HttpServletResponse resp) {
         int id = Integer.parseInt(req.getParameter("id"));
