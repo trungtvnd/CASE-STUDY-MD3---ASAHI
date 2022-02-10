@@ -10,7 +10,7 @@ import java.util.List;
 public class PositionDao implements InterfaceDAO<Position> {
     private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
     private String jdbcUsername = "root";
-    private String jdbcPassword = "12345678";
+    private String jdbcPassword = "123456";
 
     private static final String INSERT_POSITION_SQL = "INSERT INTO positions (name, describePosition, quantityLimit, quantity) VALUES (?, ?, ?, ?);";
     private static final String SELECT_POSITION_BY_ID = "select id,name,describePosition,quantityLimit,quantity from positions where id =?";

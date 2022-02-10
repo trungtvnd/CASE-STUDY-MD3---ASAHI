@@ -67,7 +67,7 @@ public class BookDAO implements IBookDAO {
             Class.forName("com.mysql.jdbc.Driver");
             String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
             String jdbcUsername = "root";
-            String jdbcPassword = "12345678";
+            String jdbcPassword = "123456";
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
