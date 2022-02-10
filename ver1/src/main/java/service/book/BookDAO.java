@@ -95,7 +95,6 @@ public class BookDAO implements IBookDAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     @Override

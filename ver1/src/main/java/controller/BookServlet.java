@@ -118,15 +118,18 @@ public class BookServlet extends HttpServlet {
         }
     }
 
-    private void delete(HttpServletRequest req, HttpServletResponse resp) {
+    private void delete(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
         int id = Integer.parseInt(req.getParameter("id"));
+        int idPosition = positionDao.searchIDPosition(id);
         try {
             bookDAO.deleteBook(id);
+            positionDao.minusQuantityPosition(positionDao.select(idPosition));
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         List<Book> books = bookDAO.selectAllBook();
+
         req.setAttribute("books", books);
         RequestDispatcher dispatcher = req.getRequestDispatcher("library/view.jsp");
         try {
@@ -317,12 +320,10 @@ public class BookServlet extends HttpServlet {
             bookDAO.insertBook(book, author, positionID, publish);
             positionDao.plusQuantityPosition(positionDao.select(positionID));
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/create.jsp");
-            try {
+
                 requestDispatcher.forward(req, resp);
-            } catch (ServletException | IOException e) {
-                e.printStackTrace();
-            }
-        } catch (SQLException e) {
+
+        } catch (SQLException | IOException |ServletException e) {
             e.printStackTrace();
         }
     }
