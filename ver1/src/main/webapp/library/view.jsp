@@ -94,6 +94,7 @@
 
 </div>
 <button class="btn btn-success"><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=create">Create New Book</a></button>
+<button class="btn btn-success"><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=books">Back To Book List</a></button>
 
 <div class="display">
     <c:if test="${requestScope['books'].isEmpty()}">

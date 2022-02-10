@@ -315,6 +315,7 @@ public class BookServlet extends HttpServlet {
         try {
             Book book = new Book(name, describe, language, status, type, yearPublish, image);
             bookDAO.insertBook(book, author, positionID, publish);
+            positionDao.plusQuantityPosition(positionDao.select(positionID));
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/create.jsp");
             try {
                 requestDispatcher.forward(req, resp);
@@ -327,6 +328,7 @@ public class BookServlet extends HttpServlet {
     }
 
     public void searchBook(HttpServletRequest request, HttpServletResponse response) {
+
         List<Book> books = bookDAO.searchBook("%"+request.getParameter("searchBook")+"%");
         request.setAttribute("books", books);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("library/view.jsp");
