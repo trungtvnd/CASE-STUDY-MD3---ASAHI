@@ -289,13 +289,21 @@ public class BookServlet extends HttpServlet {
         int positionID = Integer.parseInt(req.getParameter("positionID"));
         String yearPublish = req.getParameter("yearPublish");
         String image = req.getParameter("image");
+        try {
+            int idPosition = positionDao.searchIDPosition(id);
+            positionDao.minusQuantityPosition(positionDao.select(idPosition));
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
 
         Book book = new Book(id, name, describe, language, status, type, yearPublish, image);
         try {
             bookDAO.updateBook(book, authorID, positionID, publish);
+            positionDao.plusQuantityPosition(positionDao.select(positionID));
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         requestDispatcher = req.getRequestDispatcher("library/edit.jsp");
         try {
             requestDispatcher.forward(req, resp);
@@ -315,13 +323,28 @@ public class BookServlet extends HttpServlet {
         int positionID = Integer.parseInt(req.getParameter("position"));
         String yearPublish = req.getParameter("yearPublish");
         String image = req.getParameter("image");
+        RequestDispatcher requestDispatcher;
         try {
-            Book book = new Book(name, describe, language, status, type, yearPublish, image);
-            bookDAO.insertBook(book, author, positionID, publish);
-            positionDao.plusQuantityPosition(positionDao.select(positionID));
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/create.jsp");
-
+            int quantityAfterCreate = positionDao.getQuantityPosition(positionID) + 1;
+            if(quantityAfterCreate <=10){
+                Book book = new Book(name, describe, language, status, type, yearPublish, image);
+                bookDAO.insertBook(book, author, positionID, publish);
+                positionDao.plusQuantityPosition(positionDao.select(positionID));
+                req.setAttribute("check", quantityAfterCreate);
+                List<Publish> publishes = publishDAO.selectAll();
+                List<Author> authors = authorDAO.selectAll();
+                List<Position> positions = positionDao.selectAll();
+                req.setAttribute("authors", authors);
+                req.setAttribute("positions", positions);
+                req.setAttribute("publishes", publishes);
+                requestDispatcher = req.getRequestDispatcher("library/create.jsp");
                 requestDispatcher.forward(req, resp);
+            }else {
+                req.setAttribute("check", quantityAfterCreate);
+                requestDispatcher = req.getRequestDispatcher("library/create.jsp");
+                requestDispatcher.forward(req, resp);
+            }
+
 
         } catch (SQLException | IOException |ServletException e) {
             e.printStackTrace();

@@ -10,43 +10,12 @@
 <html>
 <head>
     <title>Display Books</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
-        .httpDirect{
-            text-decoration: none;
-            color: white;
 
-        }
-        table{
-            border: black solid 1px;
-            border-collapse: collapse;
-            border-radius: 5px;
-            width: 1500px;
-            height: 400px;
-
-        }
-        table tr,th,td {
-            padding: 5px;
-            text-align: center;
-        }
-        tr:hover{
-            background-color: #725454;
-            cursor:pointer;
-        }
-        tr:nth-child(even) td{
-            background-color: rgba(245, 221, 136, 0.99);
-        }
-        .trTable{
-            background-color: antiquewhite;
-        }
-        .display{
-            width: 1000px;
-        }
         .imgTable{
             width: 80px;
             height: 120px;
         }
-
 
     </style>
 
@@ -55,10 +24,10 @@
 <div>
     <form action="${pageContext.request.contextPath}/books?action=search" method="post">
             <label><input type="text" name="searchBook" placeholder="Name of Book"></label>
-<%--            <label><input type="text" name="searchBookByPBL" placeholder="Publish Of Book"></label>--%>
             <label><input type="submit" value="SEARCH"></label>
     </form>
 </div>
+<div class="divSort">
 
 <div>
     <form action="/books?action=sortByPublish" method="post">
@@ -93,6 +62,7 @@
     </form>
 
 </div>
+</div>
 <button class="btn btn-success"><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=create">Create New Book</a></button>
 <button class="btn btn-success"><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=books">Back To Book List</a></button>
 
@@ -100,7 +70,8 @@
     <c:if test="${requestScope['books'].isEmpty()}">
         <h2 style="color: red">Not Found</h2>
     </c:if>
-    <table>
+
+    <table class="displayTable">
         <tr class="trTable">
             <th>ID</th>
             <th>Name</th>
@@ -116,11 +87,11 @@
             <th colspan="2"></th>
         </tr>
 
+
         <c:forEach var="book" items="${requestScope['books']}">
             <tr>
                 <td>${book.getId()}</td>
                 <td ><a href="${pageContext.request.contextPath}/books?action=view&id=${book.getId()}">${book.getName()}</a></td>
-<%--                <td>${book.getName()}</td>--%>
                 <td>${book.getAuthorID()}</td>
                 <td>${book.getDescribe()}</td>
                 <td>${book.getLanguage()}</td>
@@ -128,17 +99,14 @@
                 <td>${book.getType()}</td>
                 <td>${book.getPublish()}</td>
                 <td ><a class="getLink" href="${pageContext.request.contextPath}/positions?action=view&name=${book.getPositionID()}">${book.getPositionID()}</a></td>
-<%--                <td>${book.getPositionID()}</td>--%>
                 <td>${book.getYearPublish()}</td>
                 <td><img class="imgTable" src="${book.getImage()}" alt=""></td>
                 <td><button class="btn btn-success btn-sm"><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=edit&id=${book.getId()}">Edit</a></button></td>
                 <td><button class="btn btn-success btn-sm" ><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=delete&id=${book.getId()}">Delete</a></button></td>
             </tr>
-
         </c:forEach>
     </table>
 </div>
-
 
 </body>
 </html>
