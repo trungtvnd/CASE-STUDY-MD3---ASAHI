@@ -32,13 +32,20 @@ public class RegisterServlet  extends HttpServlet {
                 case "edit":
                     editGet(req, resp);
                     break;
-                default:
+                case "creatUser":
+                    createUserGet(req, resp);
+                case "create":
                     createGet(req, resp);
                     break;
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void createUserGet(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("register/register.jsp");
+        requestDispatcher.forward(req,resp);
     }
 
     private void editGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -68,6 +75,9 @@ public class RegisterServlet  extends HttpServlet {
             case "create":
                 createPost(req, resp);
                 break;
+            case "creatUser":
+                createUserGet(req, resp);
+                break;
             case "edit":
                 editPost(req, resp);
                 break;
@@ -96,24 +106,33 @@ public class RegisterServlet  extends HttpServlet {
     }
 
     private void createPost (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        List<Account> accounts = accountDAO.selectAll();
         RequestDispatcher requestDispatcher;
+        List<Account> accounts = accountDAO.selectAll();
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String pass = req.getParameter("password");
+
         boolean accountCheck = false;
         for (Account account: accounts ) {
             if((account.getName().equals(name)) && (account.getEmail().equals(email)) && (account.getPassword().equals(pass))){
                 req.setAttribute("account", account);
                 accountCheck = true;
-                requestDispatcher = req.getRequestDispatcher("login/home.jsp");
+                requestDispatcher = req.getRequestDispatcher("register/register.jsp");
                 requestDispatcher.forward(req, resp);
             }
         }
         if(!accountCheck){
-            requestDispatcher = req.getRequestDispatcher("register/register.jsp");
-            requestDispatcher.forward(req,resp);
+            Account account = new Account(name,email,pass);
+            try {
+                accountDAO.insert(account);
+                req.setAttribute("account", account);
+                requestDispatcher= req.getRequestDispatcher("user/create.jsp");
+                requestDispatcher.forward(req,resp);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
 }
