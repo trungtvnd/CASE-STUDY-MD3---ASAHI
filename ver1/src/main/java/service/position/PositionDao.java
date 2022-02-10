@@ -18,6 +18,14 @@ public class PositionDao implements InterfaceDAO<Position> {
     private static final String UPDATE_POSITION_SQL = "update positions set name = ?,describePosition= ?, quantityLimit =? ,quantity = ? where id = ?;";
     private static final String SELECT_POSITION_BY_NAME = "select id,name,describePosition,quantityLimit,quantity from positions where name =?";
     private static final String UPDATE_POSITION_QUANTITY = "update positions set quantity = ? where id = ?;";
+    private static  final String SELECT_ID_POSITION = "select positions.id" +
+            " FROM books\n" +
+            " join positions ON positions.id = books.idPosition\n" +
+            " Where books.id = ?";
+
+    private static final String SELECT_QUANTITY_POSITION = "SELECT positions.quantity AS quantity" +
+            " From positions\n" +
+            " Where positions.id = ?";
 
 
 
@@ -140,6 +148,41 @@ public class PositionDao implements InterfaceDAO<Position> {
             rowUpdated = statement.executeUpdate() > 0;
         }
         return rowUpdated;
-
     }
+
+    public boolean minusQuantityPosition(Position position) throws SQLException{
+        boolean rowUpdated;
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_POSITION_QUANTITY);) {
+            statement.setInt(1, position.getQuantity() - 1);
+            statement.setInt(2, position.getId());
+            rowUpdated = statement.executeUpdate() > 0;
+        }
+        return rowUpdated;
+    }
+
+    public int searchIDPosition(int idBook) throws SQLException{
+        int idPosition = 0;
+            try(Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ID_POSITION);){
+                preparedStatement.setInt(1, idBook);
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()){
+                     idPosition = resultSet.getInt("id");
+                }
+            }return idPosition;
+    }
+
+    public int getQuantityPosition(int idPosition) throws SQLException{
+        int quantityPosition = 0;
+        try(Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUANTITY_POSITION);){
+            preparedStatement.setInt(1, idPosition);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                quantityPosition = resultSet.getInt("quantity");
+            }
+        }return quantityPosition;
+    }
+
+
 }
