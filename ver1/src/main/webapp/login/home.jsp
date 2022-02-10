@@ -16,18 +16,20 @@
   </style>
 </head>
 <body>
-<div>
-  <table>
-    <tr>
-      <td>Welcome: ${username}</td>
-      <td><a href="/login">Log out</a></td>
-    </tr>
-  </table>
-  
-</div>
 <div class="jumbotron text-center" style="margin-bottom:0">
   <h1>MANAGEMENT SYSTEM</h1>
   <p STYLE="font-size: 50px">LIBRARY ASAHI</p>
+  <div style="float: right">
+    <table>
+      <tr>
+        <td>Welcome,<a href="#">${username}</a></td>
+      </tr>
+
+      <tr>
+        <th><a href="/login" style="font-size: 25px ; color: tomato">LOG OUT</a></th>
+      </tr>
+    </table>
+  </div>
 </div>
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -97,6 +99,5 @@
 <div class="jumbotron text-center" style="margin-bottom:0">
   <p>We Love Books</p>
 </div>
-
 </body>
 </html>
