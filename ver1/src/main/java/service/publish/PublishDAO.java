@@ -11,7 +11,7 @@ import java.util.List;
 public class PublishDAO implements InterfaceDAO<Publish> {
     private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
     private String jdbcUsername = "root";
-    private String jdbcPassword = "123456";
+    private String jdbcPassword = "12345678";
 
     private static final String INSERT_PUBLISH_SQL = "INSERT INTO publish (name, address, email) VALUES (?, ?, ?);";
     private static final String SELECT_PUBLISH_BY_ID = "select id,name,address,email from publish where id =?";

@@ -10,7 +10,7 @@ import java.util.List;
 public class AuthorDAO implements InterfaceDAO<Author> {
     private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
     private String jdbcUsername = "root";
-    private String jdbcPassword = "123456";
+    private String jdbcPassword = "12345678";
 
     private static final String INSERT_AUTHORS_SQL = "INSERT INTO author (name, address, email) VALUES (?, ?, ?);";
     private static final String SELECT_AUTHORS_BY_ID = "select id,name,address,email from author where id =?";
