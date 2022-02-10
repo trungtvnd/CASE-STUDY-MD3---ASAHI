@@ -17,6 +17,7 @@ public class PositionDao implements InterfaceDAO<Position> {
     private static final String SELECT_ALL_POSITION = "select * from positions";
     private static final String UPDATE_POSITION_SQL = "update positions set name = ?,describePosition= ?, quantityLimit =? ,quantity = ? where id = ?;";
     private static final String SELECT_POSITION_BY_NAME = "select id,name,describePosition,quantityLimit,quantity from positions where name =?";
+    private static final String UPDATE_POSITION_QUANTITY = "update positions set quantity = ? where id = ?;";
 
 
 
@@ -129,5 +130,16 @@ public class PositionDao implements InterfaceDAO<Position> {
             System.out.println(e.getMessage());
         }
         return position;
+    }
+
+    public boolean plusQuantityPosition(Position position) throws SQLException{
+        boolean rowUpdated;
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_POSITION_QUANTITY);) {
+            statement.setInt(1, position.getQuantity() + 1);
+            statement.setInt(2, position.getId());
+            rowUpdated = statement.executeUpdate() > 0;
+        }
+        return rowUpdated;
+
     }
 }

@@ -47,13 +47,59 @@
             height: 120px;
         }
 
+
     </style>
 
 </head>
 <body>
-<button class="btn btn-success"><a class="httpDirect" href="/books?action=create">Create New Book</a></button>
+<div>
+    <form action="${pageContext.request.contextPath}/books?action=search" method="post">
+            <label><input type="text" name="searchBook" placeholder="Name of Book"></label>
+<%--            <label><input type="text" name="searchBookByPBL" placeholder="Publish Of Book"></label>--%>
+            <label><input type="submit" value="SEARCH"></label>
+    </form>
+</div>
+
+<div>
+    <form action="/books?action=sortByPublish" method="post">
+        <label> SORT BY PUBLISH
+            <select name="sortByPublish">
+                <c:forEach items="${publishes}" var="publish">
+                    <option value="${publish.getName()}">${publish.getName()}</option>
+                </c:forEach>
+            </select>
+        </label>
+        <button type="submit">SUBMIT</button>
+    </form>
+    <form action="/books?action=sortByPosition" method="post">
+        <label> SORT BY POSITION
+            <select name="sortByPosition">
+                <c:forEach items="${positions}" var="position">
+                    <option value="${position.getName()}">${position.getName()}</option>
+                </c:forEach>
+            </select>
+        </label>
+        <button type="submit">SUBMIT</button>
+    </form>
+    <form action="/books?action=sortByAuthor" method="post">
+        <label> SORT BY AUTHORS
+            <select name="sortByAuthor">
+                <c:forEach items="${authors}" var="author">
+                    <option value="${author.getName()}">${author.getName()}</option>
+                </c:forEach>
+            </select>
+        </label>
+        <button type="submit">SUBMIT</button>
+    </form>
+
+</div>
+<button class="btn btn-success"><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=create">Create New Book</a></button>
+<button class="btn btn-success"><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=books">Back To Book List</a></button>
 
 <div class="display">
+    <c:if test="${requestScope['books'].isEmpty()}">
+        <h2 style="color: red">Not Found</h2>
+    </c:if>
     <table>
         <tr class="trTable">
             <th>ID</th>
@@ -69,6 +115,7 @@
             <th>Image</th>
             <th colspan="2"></th>
         </tr>
+
         <c:forEach var="book" items="${requestScope['books']}">
             <tr>
                 <td>${book.getId()}</td>
@@ -91,5 +138,7 @@
         </c:forEach>
     </table>
 </div>
+
+
 </body>
 </html>

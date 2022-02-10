@@ -1,6 +1,6 @@
 package service.book;
 
-import model.Author;
+
 import model.Book;
 
 import java.sql.*;
@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO implements IBookDAO {
-    private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
-    private String jdbcUsername = "root";
-    private String jdbcPassword = "12345678";
 
 
     private static final String INSERT_BOOKS_SQL = "INSERT INTO books(name, describle, language, status, type, image, yearPublish, idPublish, idAuthor, idPosition) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -29,6 +26,36 @@ public class BookDAO implements IBookDAO {
     private static final String DELETE_BOOKS_SQL = "delete from books where id = ?;";
     private static final String UPDATE_BOOKS_SQL = "update books set name = ?,describle= ?, language =?, status=?, type=?, image=?, yearPublish=?,idPublish=?,idAuthor=?,idPosition=?  WHERE id = ?;";
 
+    private static final String SEARCH_BOOK = "SELECT books.id, books.name 'Name Of Book', a.name 'Author', books.describle 'Describe', books.language 'Language', books.status 'Status', books.type 'Type',p.name 'Publish', positions.name 'Position', books.yearPublish 'Year', books.image 'Image'\n" +
+            "FROM books \n" +
+            "JOIN author a ON a.id = books.idAuthor\n" +
+            "JOIN publish p ON p.id = books.idPublish\n" +
+            "JOIN positions ON positions.id = books.idPosition WHERE books.name like ?  ";
+
+
+    private static final String SEARCH_BOOK_BY_PBL = "SELECT books.id, books.name 'Name Of Book', a.name 'Author', books.describle 'Describe', books.language 'Language', books.status 'Status', books.type 'Type',p.name 'Publish', positions.name 'Position', books.yearPublish 'Year', books.image 'Image'\n" +
+            "FROM books \n" +
+            "JOIN author a ON a.id = books.idAuthor\n" +
+            "JOIN publish p ON p.id = books.idPublish\n" +
+            "JOIN positions ON positions.id = books.idPosition WHERE p.name like ?  ";
+
+    private static final String SORT_BOOK_BY_AUTHOR = "SELECT books.id, books.name 'Name Of Book', a.name 'Author', books.describle 'Describe', books.language 'Language', books.status 'Status', books.type 'Type',p.name 'Publish', positions.name 'Position', books.yearPublish 'Year', books.image 'Image'\n" +
+            "FROM books \n" +
+            "JOIN author a ON a.id = books.idAuthor\n" +
+            "JOIN publish p ON p.id = books.idPublish\n" +
+            "JOIN positions ON positions.id = books.idPosition WHERE a.name = ?  ";
+
+    private static final String SORT_BOOK_BY_POSITION = "SELECT books.id, books.name 'Name Of Book', a.name 'Author', books.describle 'Describe', books.language 'Language', books.status 'Status', books.type 'Type',p.name 'Publish', positions.name 'Position', books.yearPublish 'Year', books.image 'Image'\n" +
+            "FROM books \n" +
+            "JOIN author a ON a.id = books.idAuthor\n" +
+            "JOIN publish p ON p.id = books.idPublish\n" +
+            "JOIN positions ON positions.id = books.idPosition WHERE positions.name = ?  ";
+
+    private static final String SORT_BOOK_BY_PUBLISH = "SELECT books.id, books.name 'Name Of Book', a.name 'Author', books.describle 'Describe', books.language 'Language', books.status 'Status', books.type 'Type',p.name 'Publish', positions.name 'Position', books.yearPublish 'Year', books.image 'Image'\n" +
+            "FROM books \n" +
+            "JOIN author a ON a.id = books.idAuthor\n" +
+            "JOIN publish p ON p.id = books.idPublish\n" +
+            "JOIN positions ON positions.id = books.idPosition WHERE p.name = ?  ";
 
 
     public BookDAO() {
@@ -38,6 +65,9 @@ public class BookDAO implements IBookDAO {
         Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
+            String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
+            String jdbcUsername = "root";
+            String jdbcPassword = "12345678";
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println(e.getMessage());
@@ -72,7 +102,7 @@ public class BookDAO implements IBookDAO {
     public Book selectBook(int id) {
         Book book = null;
         try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOKS_BY_ID);) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOKS_BY_ID)) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
@@ -127,7 +157,7 @@ public class BookDAO implements IBookDAO {
     @Override
     public boolean deleteBook(int id) throws SQLException {
         boolean rowDeleted;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_BOOKS_SQL);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_BOOKS_SQL)) {
             statement.setInt(1, id);
             rowDeleted = statement.executeUpdate() > 0;
         }
@@ -137,7 +167,7 @@ public class BookDAO implements IBookDAO {
     @Override
     public boolean updateBook(Book book, int author, int position, int publish) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_BOOKS_SQL);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_BOOKS_SQL)) {
             statement.setString(1, book.getName());
             statement.setString(2, book.getDescribe());
             statement.setString(3, book.getLanguage());
@@ -154,4 +184,146 @@ public class BookDAO implements IBookDAO {
         }
         return rowUpdated;
     }
+
+    public List<Book> searchBook(String key) {
+        List<Book> books = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_BOOK)) {
+            preparedStatement.setString(1, key);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("Name of Book");
+                String author = rs.getString("Author");
+                String describe = rs.getString("Describe");
+                String language = rs.getString("Language");
+                String status = rs.getString("Status");
+                String type = rs.getString("Type");
+                String publish = rs.getString("Publish");
+                String position = rs.getString("Position");
+                String yearPublish = rs.getString("Year");
+                String image = rs.getString("Image");
+                books.add(new Book(id, name, author, describe, language, status, type, publish, position, yearPublish, image));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return books;
+    }
+
+    public List<Book> searchBookByPBL(String publishKey,String nameBook) {
+        List<Book> books = searchBook(nameBook);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_BOOK_BY_PBL)) {
+            preparedStatement.setString(1, publishKey);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("Name of Book");
+                String author = rs.getString("Author");
+                String describe = rs.getString("Describe");
+                String language = rs.getString("Language");
+                String status = rs.getString("Status");
+                String type = rs.getString("Type");
+                String publish = rs.getString("Publish");
+                String position = rs.getString("Position");
+                String yearPublish = rs.getString("Year");
+                String image = rs.getString("Image");
+                books.add(new Book(id, name, author, describe, language, status, type, publish, position, yearPublish, image));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return books;
+    }
+
+    public List<Book> sortBookByAuthor(String nameAuthor) {
+        List<Book> books = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SORT_BOOK_BY_AUTHOR)) {
+            preparedStatement.setString(1, nameAuthor);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("Name of Book");
+                String describe = rs.getString("Describe");
+                String language = rs.getString("Language");
+                String status = rs.getString("Status");
+                String type = rs.getString("Type");
+                String publish = rs.getString("Publish");
+                String position = rs.getString("Position");
+                String yearPublish = rs.getString("Year");
+                String image = rs.getString("Image");
+                books.add(new Book(id, name, nameAuthor, describe, language, status, type, publish, position, yearPublish, image));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return books;
+
+    }
+
+    public List<Book> sortBookByPosition(String namePosition) {
+        List<Book> books = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SORT_BOOK_BY_POSITION)) {
+            preparedStatement.setString(1, namePosition);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("Name of Book");
+                String author = rs.getString("Author");
+                String describe = rs.getString("Describe");
+                String language = rs.getString("Language");
+                String status = rs.getString("Status");
+                String type = rs.getString("Type");
+                String publish = rs.getString("Publish");
+                String yearPublish = rs.getString("Year");
+                String image = rs.getString("Image");
+                books.add(new Book(id, name, author, describe, language, status, type, publish, namePosition, yearPublish, image));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return books;
+    }
+
+    public List<Book> sortBookByPublish(String namePublish) {
+        List<Book> books = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SORT_BOOK_BY_PUBLISH)) {
+            preparedStatement.setString(1, namePublish);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("Name of Book");
+                String author = rs.getString("Author");
+                String describe = rs.getString("Describe");
+                String language = rs.getString("Language");
+                String status = rs.getString("Status");
+                String type = rs.getString("Type");
+                String position = rs.getString("Position");
+                String yearPublish = rs.getString("Year");
+                String image = rs.getString("Image");
+                books.add(new Book(id, name, author, describe, language, status, type, namePublish, position, yearPublish, image));
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return books;
+    }
+
+
+
+
 }
