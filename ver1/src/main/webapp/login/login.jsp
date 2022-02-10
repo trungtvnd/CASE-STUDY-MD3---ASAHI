@@ -55,6 +55,9 @@
             <div id="register-link" class="text-right">
               <a href="#" class="text-info">Forgot password</a>
             </div>
+            <div id="" class="text-right">
+              <a href="/register?action=create" class="text-info">Register</a>
+            </div>
           </form>
         </div>
       </div>
