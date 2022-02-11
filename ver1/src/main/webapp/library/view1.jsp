@@ -13,6 +13,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://mdbootstrap.com/docs/b4/jquery/getting-started/cdn/">
     <link rel="stylesheet" href="view1.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -317,6 +318,19 @@
 
         }
 
+        .active-pink input.form-control[type=text] {
+            border-bottom: 1px solid #f48fb1;
+            box-shadow: 0 1px 0 0 #f48fb1;
+        }
+        .input-group.md-form.form-sm.form-2 input {
+            border: 1px solid #bdbdbd;
+            border-top-left-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+        .input-group.md-form.form-sm.form-2 input.red-border {
+            border: 1px solid #ef9a9a;
+        }
+
     </style>
 </head>
 <body>
@@ -356,10 +370,23 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <form action="${pageContext.request.contextPath}/books?action=search" method="post">
-                        <label><input type="text" name="searchBook" placeholder="Name of Book"></label>
-                        <label><input type="submit" value="SEARCH"></label>
-                    </form>
+                    <%--                    <form action="${pageContext.request.contextPath}/books?action=search" method="post">--%>
+                    <%--                        <label><input type="text" name="searchBook" placeholder="Name of Book"></label>--%>
+                    <%--                        <label><input type="submit" value="SEARCH"></label>--%>
+                    <%--                    </form>--%>
+                    <%--                    <form class="form-inline d-flex justify-content-center md-form form-sm active-pink-2 mt-2">--%>
+                    <%--                        <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"--%>
+                    <%--                               aria-label="Search">--%>
+                    <%--                        <i class="fas fa-search" aria-hidden="true"></i>--%>
+                    <%--                    </form>--%>
+                    <div class="input-group md-form form-sm form-2 pl-0">
+                        <input class="form-control my-0 py-1 red-border" type="text" placeholder="Search"
+                               aria-label="Search">
+                        <div class="input-group-append">
+                        <span class="input-group-text red lighten-3" id="basic-text1"><i class="fas fa-search text-grey"
+                                                                     aria-hidden="true"></i></span>
+                        </div>
+                    </div>
                 </li>
 
             </ul>
@@ -385,21 +412,25 @@
         <c:forEach var="book" items="${requestScope['books']}">
             <div class="col-sm-3">
 
-                <div class="panel panel-primary">
+                <div class="panel panel-primary"
+                     onclick="location.href='${pageContext.request.contextPath}/books?action=view&id=${book.getId()}';"
+                     style="cursor:pointer;">
                     <div class="panel-heading">${book.getName()}</div>
                     <div class="panel-body"><img
                             src="${book.getImage()}"
                             class="img-responsive" style="width:80%; margin: auto" alt="Image"></div>
                     <div class="panel-footer">
                         <button class="btn btn-success btn"><a style="color: white" class="httpDirect"
-                                                                  href="${pageContext.request.contextPath}/books?action=edit&id=${book.getId()}"><span
+                                                               href="${pageContext.request.contextPath}/books?action=edit&id=${book.getId()}"><span
                                 class="glyphicon glyphicon-edit"></span>Edit</a>
                         </button>
-                        <button class="btn btn-success btn"><a style="color: white"  class="httpDirect"
-                                                                  href="${pageContext.request.contextPath}/books?action=delete&id=${book.getId()}"><span
+                        <button class="btn btn-success btn"><a style="color: white" class="httpDirect"
+                                                               href="${pageContext.request.contextPath}/books?action=delete&id=${book.getId()}"><span
                                 class="glyphicon glyphicon-trash "></span>Delete</a>
                         </button>
+
                     </div>
+
                 </div>
 
             </div>
