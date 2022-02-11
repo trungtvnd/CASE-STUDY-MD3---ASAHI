@@ -1,7 +1,13 @@
 package controller;
 
 import model.Account;
+import model.Author;
+import model.Position;
+import model.Publish;
 import service.account.AccountDAO;
+import service.author.AuthorDAO;
+import service.position.PositionDao;
+import service.publish.PublishDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +21,9 @@ import java.util.List;
 @WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     private final AccountDAO accountDAO = new AccountDAO();
+    private final AuthorDAO authorDAO = new AuthorDAO();
+    private final PublishDAO publishDAO = new PublishDAO();
+    private final PositionDao positionDao = new PositionDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +43,14 @@ public class LoginServlet extends HttpServlet {
             if((account.getName().equals(user))  && (account.getPassword().equals(pass))){
                 req.setAttribute("account", account.getName());
                 accountCheck = true;
-                requestDispatcher = req.getRequestDispatcher("login/home.jsp");
+                List<Publish> publishes = publishDAO.selectAll();
+                List<Position> positions = positionDao.selectAll();
+                List<Author> authors = authorDAO.selectAll();
+                req.setAttribute("username", user);
+                req.setAttribute("authors", authors);
+                req.setAttribute("positions", positions);
+                req.setAttribute("publishes", publishes);
+                requestDispatcher = req.getRequestDispatcher("login/home1.jsp");
                 requestDispatcher.forward(req, resp);
             }
         }

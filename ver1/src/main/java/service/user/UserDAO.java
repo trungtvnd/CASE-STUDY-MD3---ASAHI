@@ -23,6 +23,8 @@ public class UserDAO implements InterfaceDAO<User> {
     private static final String UPDATE_USER_SQL = "update users set userName = ?,birth= ?, phoneNumber =?, image =? where id = ?;";
     private static final String SELECT_ALL_USER = "select * from users";
     private static final String SELECT_USER_BY_ID = "select id,userName,birth,idEmail,phoneNumber, image from users where id =?";
+    private static final String SELECT_USER_BY_EMAIL = "select id,userName,birth,idEmail,phoneNumber, image from users where idEmail =?";
+
     public UserDAO() {
     }
 
@@ -73,6 +75,7 @@ public class UserDAO implements InterfaceDAO<User> {
         }
         return user;
     }
+
 
     @Override
     public List<User> selectAll() {

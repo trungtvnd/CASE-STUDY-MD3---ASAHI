@@ -5,7 +5,7 @@
   Time: 20:50
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -17,7 +17,314 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
+        body, html {
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
 
+        /* Styles the thumbnail */
+
+        a.lightbox img {
+            height: 150px;
+            border: 3px solid white;
+            box-shadow: 0px 0px 8px rgba(0,0,0,.3);
+            margin: 94px 20px 20px 20px;
+        }
+
+        /* Styles the lightbox, removes it from sight and adds the fade-in transition */
+
+        .lightbox-target {
+            position: fixed;
+            top: -100%;
+            width: 100%;
+            background: rgba(0,0,0,.7);
+            width: 100%;
+            opacity: 0;
+            -webkit-transition: opacity .5s ease-in-out;
+            -moz-transition: opacity .5s ease-in-out;
+            -o-transition: opacity .5s ease-in-out;
+            transition: opacity .5s ease-in-out;
+            overflow: hidden;
+
+        }
+
+        /* Styles the lightbox image, centers it vertically and horizontally, adds the zoom-in transition and makes it responsive using a combination of margin and absolute positioning */
+
+        .lightbox-target img {
+            margin: auto;
+            position: absolute;
+            top: 0;
+            left:0;
+            right:0;
+            bottom: 0;
+            max-height: 0%;
+            max-width: 0%;
+            border: 3px solid white;
+            box-shadow: 0px 0px 8px rgba(0,0,0,.3);
+            box-sizing: border-box;
+            -webkit-transition: .5s ease-in-out;
+            -moz-transition: .5s ease-in-out;
+            -o-transition: .5s ease-in-out;
+            transition: .5s ease-in-out;
+
+        }
+
+        /* Styles the close link, adds the slide down transition */
+
+        a.lightbox-close {
+            display: block;
+            width:50px;
+            height:50px;
+            box-sizing: border-box;
+            background: white;
+            color: black;
+            text-decoration: none;
+            position: absolute;
+            top: -80px;
+            right: 0;
+            -webkit-transition: .5s ease-in-out;
+            -moz-transition: .5s ease-in-out;
+            -o-transition: .5s ease-in-out;
+            transition: .5s ease-in-out;
+        }
+
+        /* Provides part of the "X" to eliminate an image from the close link */
+
+        a.lightbox-close:before {
+            content: "";
+            display: block;
+            height: 30px;
+            width: 1px;
+            background: black;
+            position: absolute;
+            left: 26px;
+            top:10px;
+            -webkit-transform:rotate(45deg);
+            -moz-transform:rotate(45deg);
+            -o-transform:rotate(45deg);
+            transform:rotate(45deg);
+        }
+
+        /* Provides part of the "X" to eliminate an image from the close link */
+
+        a.lightbox-close:after {
+            content: "";
+            display: block;
+            height: 30px;
+            width: 1px;
+            background: black;
+            position: absolute;
+            left: 26px;
+            top:10px;
+            -webkit-transform:rotate(-45deg);
+            -moz-transform:rotate(-45deg);
+            -o-transform:rotate(-45deg);
+            transform:rotate(-45deg);
+        }
+
+        /* Uses the :target pseudo-class to perform the animations upon clicking the .lightbox-target anchor */
+
+        .lightbox-target:target {
+            opacity: 1;
+            top: 0;
+            bottom: 0;
+            overflow:scroll;
+        }
+
+        .lightbox-target:target img {
+            max-height: 100%;
+            max-width: 100%;
+        }
+
+        .lightbox-target:target a.lightbox-close {
+            top: 0;
+        }
+
+        /* Remove the navbar's default rounded borders and increase the bottom margin */
+        .navbar {
+            margin-bottom: 50px;
+            border-radius: 0;
+        }
+
+        /* Remove the jumbotron's default bottom margin */
+        .jumbotron {
+            margin-bottom: 0;
+
+        }
+
+        /* Add a gray background color and some padding to the footer */
+        footer {
+            background-color: #f2f2f2;
+            padding: 25px;
+        }
+
+        .logo {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+
+        .nav navbar-nav {
+            font-size: 20px;
+        }
+
+        body {
+
+        }
+
+        /* Style The Dropdown Button */
+        .dropbtn {
+            background-color: black;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+
+        .img-responsive {
+            width: 80px;
+            height: 200px;
+        }
+        .panel-heading{
+
+            text-align: center;
+        }
+        /* Remove the navbar's default rounded borders and increase the bottom margin */
+        .navbar {
+            margin-bottom: 50px;
+            border-radius: 0;
+        }
+
+        /* Remove the jumbotron's default bottom margin */
+        .jumbotron {
+            margin-bottom: 0;
+
+        }
+
+        /* Add a gray background color and some padding to the footer */
+        footer {
+            background-color: #f2f2f2;
+            padding: 25px;
+        }
+
+        .logo {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+
+        .nav navbar-nav {
+            font-size: 20px;
+        }
+
+        body {
+            background-color: mistyrose;
+        }
+
+        /* Style The Dropdown Button */
+        .dropbtn {
+            background-color: black;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* The container <div> - needed to position the dropdown content */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown Content (Hidden by Default) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Change color of dropdown links on hover */
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Change the background color of the dropdown button when the dropdown content is shown */
+        .dropdown:hover .dropbtn {
+            background-color: #3e8e41;
+        }
+
+        .img-responsive {
+            width: 80px;
+            height: 200px;
+        }
+        .panel-heading{
+
+            text-align: center;
+        }
+        .jumbotron{
+            background-image: url("https://mcdn.wallpapersafari.com/medium/55/22/P5ABoL.jpg");
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -25,7 +332,7 @@
 <div class="jumbotron">
     <div class="container text-center">
         <h1>ASAHI LIBRARY</h1>
-        <img class="logo" src="library.png" alt="" >
+        <img class="logo" src="login/library.png" alt="" >
     </div>
 </div>
 
@@ -54,17 +361,14 @@
                 <%--                <li><a href="/books?action=joinType">KIND OF BOOK</a></li>--%>
                 <li>
                     <div class="dropdown">
-                        <button class="dropbtn">Kind of book<span class="glyphicon glyphicon-sort"></span></button>
+                        <button class="dropbtn">Pulish<span class="glyphicon glyphicon-sort"></span></button>
                         <div class="dropdown-content">
-                            <a href="#" class="titlebook">Political & Law</a>
-                            <a href="#">Science</a>
-                            <a href="#">Economic</a>
-                            <a href="#">Literature & Art</a>
-                            <a href="#">Cultural & Historical</a>
-                            <a href="#">Curriculum</a>
-                            <a href="#">Story & Novel</a>
-                            <a href="#">Mentality, Spirituality & Religion</a>
-                            <a href="#">Children</a>
+                            <c:forEach items="${publishes}" var="publish">
+                                <label>
+                                    <a href="/books?action=sortByPublish&sortByPublish=${publish.getName()}">${publish.getName()}</a>
+                                </label>
+
+                            </c:forEach>
                         </div>
                     </div>
                 </li>
@@ -74,7 +378,9 @@
                         <button class="dropbtn">Positions<span class="glyphicon glyphicon-sort"></span></button>
                         <div class="dropdown-content">
                             <c:forEach items="${positions}" var="position">
-                                <a href="#"> ${position.getName()}</a>
+                                <label>
+                                    <a href="/books?action=sortByPosition&sortByPosition=${position.getName()}">${position.getName()}</a>
+                                </label>
                             </c:forEach>
                         </div>
                     </div>
@@ -85,14 +391,16 @@
                         <button class="dropbtn">Authors<span class="glyphicon glyphicon-sort"></span></button>
                         <div class="dropdown-content">
                             <c:forEach items="${authors}" var="author">
-                                <a href="#"> ${author.getName()}</a>
+                                <label>
+                                    <a href="/books?action=sortByAuthor&sortByAuthor=${author.getName()}">${author.getName()}</a>
+                                </label>
                             </c:forEach>
                         </div>
                     </div>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${username}</a></li>
+                <li><a href="/register?action=displayUser&username=${username}"><span class="glyphicon glyphicon-user"></span> ${username}</a></li>
                 <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
@@ -105,7 +413,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Political & Law </div>
                 <div class="panel-body"><img
-                        src="http://1.bp.blogspot.com/-RPdEvwiXsso/T8Ncc2PWQ9I/AAAAAAAAAE4/7n9szTDA9hQ/s1600/law.jpg"
+                        src="https://1.bp.blogspot.com/-RPdEvwiXsso/T8Ncc2PWQ9I/AAAAAAAAAE4/7n9szTDA9hQ/s1600/law.jpg"
                         class="img-responsive" style="width:100%" alt="Image"></div>
                 <div class="panel-footer">We have ${x} Political & Law books</div>
             </div>
@@ -171,7 +479,7 @@
         <div class="col-sm-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">Mentality, Spirituality & Religion</div>
-                <div class="panel-body"><img src="http://nghiencuuquocte.org/wp-content/uploads/2020/03/religions.jpg"
+                <div class="panel-body"><img src="https://nghiencuuquocte.org/wp-content/uploads/2020/03/religions.jpg"
                                              class="img-responsive" style="width:100%" alt="Image"></div>
                 <div class="panel-footer">We have ${x} Mentality, Spirituality & Religion books</div>
             </div>
@@ -192,7 +500,9 @@
 <footer class="container-fluid text-center">
     <p>Online Store Copyright</p>
     <form class="form-inline">Get deals:
-        <input type="email" class="form-control" size="50" placeholder="Email Address">
+        <label>
+            <input type="email" class="form-control" size="50" placeholder="Email Address">
+        </label>
         <button type="button" class="btn btn-danger">Sign Up</button>
     </form>
 </footer>

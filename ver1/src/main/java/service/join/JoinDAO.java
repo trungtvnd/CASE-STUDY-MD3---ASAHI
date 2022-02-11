@@ -1,6 +1,7 @@
 package service.join;
 
 import model.JoinPosition;
+import model.JoinPublish;
 import model.JoinStatus;
 import model.JoinType;
 
@@ -8,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JoinPositionDAO {
+public class JoinDAO {
     private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "12345678";
@@ -16,6 +17,8 @@ public class JoinPositionDAO {
     private static final String JOIN_POSITION = "SELECT * FROM joinposition";
     private static final String JOIN_STATUS = "SELECT * FROM joinstatus";
     private static final String JOIN_TYPE = "SELECT * FROM jointype";
+    private static final String JOIN_PUBLISH = "SELECT * FROM joinpublish";
+
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -80,6 +83,44 @@ public class JoinPositionDAO {
             System.out.println(e.getMessage());
         }
         return joinTypes;
+    }
+
+    public List<JoinPublish> selectAllPublish() {
+        List<JoinPublish> joinPublishes = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(JOIN_PUBLISH);) {
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                int quantity = rs.getInt("quantity");
+
+                joinPublishes.add(new JoinPublish(name,quantity));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return joinPublishes;
+    }
+
+    public int selectQuantityPublish(String name){
+        int quantity = 0;
+        List<JoinPublish> publishes = selectAllPublish();
+        for (JoinPublish joinPublish:publishes) {
+            if(joinPublish.getName().equals(name)){
+                quantity = joinPublish.getQuantity();
+            }
+        }return quantity;
+    }
+
+    public int selectQuantityPosition(String name){
+        int quantity = 0;
+        List<JoinPosition> joinPositions = selectAllPosition();
+        for (JoinPosition joinPosition: joinPositions) {
+            if(joinPosition.getName().equals(name)){
+                quantity = joinPosition.getQuantity();
+            }
+        }return  quantity;
     }
 
 

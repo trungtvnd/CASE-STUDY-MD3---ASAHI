@@ -3,7 +3,7 @@ package controller;
 import model.*;
 import service.author.AuthorDAO;
 import service.book.BookDAO;
-import service.join.JoinPositionDAO;
+import service.join.JoinDAO;
 import service.position.PositionDao;
 import service.publish.PublishDAO;
 
@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/books")
@@ -25,7 +24,7 @@ public class BookServlet extends HttpServlet {
     private final AuthorDAO authorDAO = new AuthorDAO();
     private final PublishDAO publishDAO = new PublishDAO();
     private final PositionDao positionDao = new PositionDao();
-    private final JoinPositionDAO joinPositionDAO = new JoinPositionDAO();
+    private final JoinDAO joinPositionDAO = new JoinDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -55,6 +54,15 @@ public class BookServlet extends HttpServlet {
                     break;
                 case "joinType":
                     joinType(req, resp);
+                    break;
+                case "sortByPublish":
+                    sortByPublish(req, resp);
+                    break;
+                case "sortByAuthor":
+                    sortByAuthor(req, resp);
+                    break;
+                case "sortByPosition":
+                    sortByPosition(req, resp);
                     break;
 
                 default:
@@ -180,7 +188,11 @@ public class BookServlet extends HttpServlet {
         req.setAttribute("positions", positions);
         req.setAttribute("publishes", publishes);
         List<Book> books = bookDAO.selectAllBook();
+        boolean checkView = true;
+        int quantity = bookDAO.selectQuantityAllBook();
         req.setAttribute("books", books);
+        req.setAttribute("checkView", checkView);
+        req.setAttribute("quantityAllBook", quantity);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view.jsp");
         try {
             requestDispatcher.forward(req, resp);
@@ -204,15 +216,8 @@ public class BookServlet extends HttpServlet {
                 break;
             case "search":
                 searchBook(req, resp);
-            case "sortByAuthor":
-                sortByAuthor(req, resp);
-                break;
-            case "sortByPosition":
-                sortByPosition(req, resp);
-                break;
-            case "sortByPublish":
-                sortByPublish(req, resp);
-                break;
+
+
         }
     }
 
@@ -226,7 +231,11 @@ public class BookServlet extends HttpServlet {
         req.setAttribute("publishes", publishes);
         req.setAttribute("positions", positions);
         List<Book> books = bookDAO.sortBookByPublish(namePublish);
+        boolean check = true;
+        int quantity = joinPositionDAO.selectQuantityPublish(namePublish);
         req.setAttribute("books", books);
+        req.setAttribute("checkPublish", check);
+        req.setAttribute("quantityPublish", quantity);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view.jsp");
         try {
             requestDispatcher.forward(req, resp);
@@ -246,7 +255,11 @@ public class BookServlet extends HttpServlet {
         req.setAttribute("authors", authors);
 
         List<Book> books = bookDAO.sortBookByPosition(namePosition);
+        boolean check = true;
+        int quantity = joinPositionDAO.selectQuantityPosition(namePosition);
         req.setAttribute("books", books);
+        req.setAttribute("checkPosition", check);
+        req.setAttribute("quantityPosition", quantity);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view.jsp");
         try {
             requestDispatcher.forward(req, resp);
@@ -386,4 +399,5 @@ public class BookServlet extends HttpServlet {
             }
         }
     }
+
 }
