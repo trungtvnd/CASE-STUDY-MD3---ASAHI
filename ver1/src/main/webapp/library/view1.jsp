@@ -341,7 +341,7 @@
             <ul class="nav navbar-nav">
                 <li class="active">
                     <div class="dropdown">
-                        <button class="dropbtn">Home<span class="glyphicon glyphicon-home "></span></button>
+                        <button  class="dropbtn"><a style="text-decoration: none; color: white" href="login/home1.jsp">Home</a><span class="glyphicon glyphicon-home "></span></button>
                         <button class="btn btn-success">
                             <a class="httpDirect" href="${pageContext.request.contextPath}/books?action=create">
                                 <span class="glyphicon glyphicon-pencil"></span> Create New Book</a></button>
