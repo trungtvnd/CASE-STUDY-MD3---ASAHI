@@ -323,7 +323,9 @@
         }
         .jumbotron{
             background-image: url("https://mcdn.wallpapersafari.com/medium/55/22/P5ABoL.jpg");
-            width: 100%;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
         }
     </style>
 </head>
@@ -332,7 +334,7 @@
 <div class="jumbotron">
     <div class="container text-center">
         <h1>ASAHI LIBRARY</h1>
-        <img class="logo" src="login/library.png" alt="" >
+        <img class="logo" src="/picture/library.png" alt="" >
     </div>
 </div>
 
@@ -401,7 +403,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/register?action=displayUser&username=${username}"><span class="glyphicon glyphicon-user"></span> ${username}</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                <li><a href="/login/login.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
     </div>

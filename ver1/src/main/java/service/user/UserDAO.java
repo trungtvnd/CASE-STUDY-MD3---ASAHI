@@ -18,12 +18,16 @@ public class UserDAO implements InterfaceDAO<User> {
     private final AccountDAO accountDAO = new AccountDAO();
 
 
-
     private static final String INSERT_USER_SQL = "INSERT INTO users (userName, birth, idEmail,phoneNumber, image) VALUES (?, ?, ?,?,?);";
     private static final String UPDATE_USER_SQL = "update users set userName = ?,birth= ?, phoneNumber =?, image =? where id = ?;";
     private static final String SELECT_ALL_USER = "select * from users";
     private static final String SELECT_USER_BY_ID = "select id,userName,birth,idEmail,phoneNumber, image from users where id =?";
     private static final String SELECT_USER_BY_EMAIL = "select id,userName,birth,idEmail,phoneNumber, image from users where idEmail =?";
+
+    private static final String SELECT_USER_BY_JOIN = "SELECT users.id 'id',  users.userName 'username', users.birth 'birth', accounts.email 'email', users.phoneNumber 'phone', users.image 'image'" +
+            "FROM accounts\n" +
+            "JOIN users ON users.idEmail = accounts.id \n"+
+            "Where accounts.id = ?";
 
     public UserDAO() {
     }
@@ -38,6 +42,7 @@ public class UserDAO implements InterfaceDAO<User> {
         }
         return connection;
     }
+
     @Override
     public void insert(User user) throws SQLException {
         System.out.println(INSERT_USER_SQL);
@@ -68,7 +73,7 @@ public class UserDAO implements InterfaceDAO<User> {
                 String email = rs.getString("idEmail");
                 String phoneNumber = rs.getString("phoneNumber");
                 String image = rs.getString("image");
-                user = new User(id, name, birth, email,phoneNumber,image);
+                user = new User(id, name, birth, email, phoneNumber, image);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -93,7 +98,7 @@ public class UserDAO implements InterfaceDAO<User> {
                 String email = rs.getString("idEmail");
                 String phoneNumber = rs.getString("phoneNumber");
                 String image = rs.getString("image");
-                users.add(new User(id, name,birth, email,phoneNumber,image));
+                users.add(new User(id, name, birth, email, phoneNumber, image));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -120,14 +125,38 @@ public class UserDAO implements InterfaceDAO<User> {
         }
         return rowUpdated;
     }
-    public int searchIDAccount(String email){
+
+    public int searchIDAccount(String email) {
         int idAccount = 0;
         List<Account> accounts = accountDAO.selectAll();
-        for (Account account:accounts) {
-            if(account.getEmail().equals(email)){
+        for (Account account : accounts) {
+            if (account.getEmail().equals(email)) {
                 idAccount = account.getId();
             }
-        }return idAccount;
+        }
+        return idAccount;
     }
 
+    public User selectUserByIDEmail(int idEmail) {
+        User user = null;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_JOIN);) {
+            preparedStatement.setInt(1, idEmail);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("username");
+                int birth = Integer.parseInt(rs.getString("birth"));
+                String email = rs.getString("email");
+                String phoneNumber = rs.getString("phone");
+                String image = rs.getString("image");
+                user = new User(id, name, birth, email, phoneNumber, image);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return user;
+
+    }
 }

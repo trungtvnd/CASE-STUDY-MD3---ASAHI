@@ -48,7 +48,7 @@ public class RegisterServlet  extends HttpServlet {
 
     private void displayUser(HttpServletRequest req, HttpServletResponse resp) {
         String username = req.getParameter("username");
-        User user = userDAO.select(searchIDAccount(username));
+        User user = userDAO.selectUserByIDEmail(searchIDAccount(username));
         req.setAttribute("user", user);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("user/viewDetail.jsp");
         try {
