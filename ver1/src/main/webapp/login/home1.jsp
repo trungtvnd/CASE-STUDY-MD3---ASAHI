@@ -333,7 +333,7 @@
 
 <div class="jumbotron">
     <div class="container text-center">
-        <h1>ASAHI LIBRARY</h1>
+        <h1  style=" font-family: 'Nothing You Could Do',cursive; color: white">ASAHI LIBRARY</h1>
         <img class="logo" src="/picture/library.png" alt="" >
     </div>
 </div>
@@ -352,18 +352,18 @@
             <ul class="nav navbar-nav">
                 <li class="active">
                     <div class="dropdown">
-                        <button class="dropbtn">Home<span class="glyphicon glyphicon-home "></span></button>
+                        <button class="dropbtn">Home <span class="glyphicon glyphicon-home "></span></button>
                     </div>
                 </li>
                 <li>
                     <div class="dropdown">
-                        <button class="dropbtn"><a href="${pageContext.request.contextPath}/books" style="color: white">Books<span class="glyphicon glyphicon-th-list "></span></a></button>
+                        <button class="dropbtn"><a href="${pageContext.request.contextPath}/books" style="color: white">Books <span class="glyphicon glyphicon-th-list "></span></a></button>
                     </div>
                 </li>
-                <%--                <li><a href="/books?action=joinType">KIND OF BOOK</a></li>--%>
+
                 <li>
                     <div class="dropdown">
-                        <button class="dropbtn">Pulish<span class="glyphicon glyphicon-sort"></span></button>
+                        <button class="dropbtn">Pulish <span class="glyphicon glyphicon-chevron-down"></span></button>
                         <div class="dropdown-content">
                             <c:forEach items="${publishes}" var="publish">
                                 <label>
@@ -374,10 +374,10 @@
                         </div>
                     </div>
                 </li>
-                <%--                <li><a href="/books?action=joinPosition">STATISTIC BY POSITION</a></li>--%>
+
                 <li>
                     <div class="dropdown">
-                        <button class="dropbtn">Positions<span class="glyphicon glyphicon-sort"></span></button>
+                        <button class="dropbtn">Positions <span class="glyphicon glyphicon-chevron-down"></span></button>
                         <div class="dropdown-content">
                             <c:forEach items="${positions}" var="position">
                                 <label>
@@ -387,19 +387,7 @@
                         </div>
                     </div>
                 </li>
-                <%--                <li><a href="/books?action=joinStatus">STATISTIC BY STATUS</a></li>--%>
-                <li>
-                    <div class="dropdown">
-                        <button class="dropbtn">Authors<span class="glyphicon glyphicon-sort"></span></button>
-                        <div class="dropdown-content">
-                            <c:forEach items="${authors}" var="author">
-                                <label>
-                                    <a href="/books?action=sortByAuthor&sortByAuthor=${author.getName()}">${author.getName()}</a>
-                                </label>
-                            </c:forEach>
-                        </div>
-                    </div>
-                </li>
+
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/register?action=displayUser&username=${username}"><span class="glyphicon glyphicon-user"></span> ${username}</a></li>
