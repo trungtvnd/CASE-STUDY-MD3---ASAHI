@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,6 @@ public class RegisterServlet  extends HttpServlet {
                 case "edit":
                     editGet(req, resp);
                     break;
-                case "creatUser":
-                    createUserGet(req, resp);
                 case "create":
                     createGet(req, resp);
                     break;
@@ -43,10 +42,7 @@ public class RegisterServlet  extends HttpServlet {
         }
     }
 
-    private void createUserGet(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("register/register.jsp");
-        requestDispatcher.forward(req,resp);
-    }
+
 
     private void editGet(HttpServletRequest req, HttpServletResponse resp) {
         List<Account> accounts = accountDAO.selectAll();
@@ -76,11 +72,30 @@ public class RegisterServlet  extends HttpServlet {
                 createPost(req, resp);
                 break;
             case "creatUser":
-                createUserGet(req, resp);
+              createUser(req, resp);
                 break;
             case "edit":
                 editPost(req, resp);
                 break;
+        }
+    }
+
+    private void createUser(HttpServletRequest req, HttpServletResponse resp) {
+        String username = req.getParameter("name");
+        int birth = Integer.parseInt(req.getParameter("birth"));
+        String email = req.getParameter("email");
+        String phoneNumber = req.getParameter("phoneNumber");
+        String image = req.getParameter("image");
+
+        User user = new User(username, birth, email, phoneNumber, image);
+        try {
+            userDAO.insert(user);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("user/create.jsp");
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 
@@ -134,5 +149,6 @@ public class RegisterServlet  extends HttpServlet {
         }
 
     }
+
 
 }

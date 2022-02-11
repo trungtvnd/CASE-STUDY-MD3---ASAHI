@@ -1,8 +1,10 @@
 package service.user;
 
+import model.Account;
 import model.Publish;
 import model.User;
 import service.InterfaceDAO;
+import service.account.AccountDAO;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -13,11 +15,14 @@ public class UserDAO implements InterfaceDAO<User> {
     private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "12345678";
+    private final AccountDAO accountDAO = new AccountDAO();
 
-    private static final String INSERT_USER_SQL = "INSERT INTO users (userName, birth, email,phoneNumber, image) VALUES (?, ?, ?,?,?);";
+
+
+    private static final String INSERT_USER_SQL = "INSERT INTO users (userName, birth, idEmail,phoneNumber, image) VALUES (?, ?, ?,?,?);";
     private static final String UPDATE_USER_SQL = "update users set userName = ?,birth= ?, phoneNumber =?, image =? where id = ?;";
     private static final String SELECT_ALL_USER = "select * from users";
-    private static final String SELECT_USER_BY_ID = "select id,userName,birth,email,phoneNumber, image from users where id =?";
+    private static final String SELECT_USER_BY_ID = "select id,userName,birth,idEmail,phoneNumber, image from users where id =?";
     public UserDAO() {
     }
 
@@ -36,14 +41,14 @@ public class UserDAO implements InterfaceDAO<User> {
         System.out.println(INSERT_USER_SQL);
         try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
             preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, String.valueOf(user.getBirth()));
-            preparedStatement.setString(3, user.getEmail());
+            preparedStatement.setInt(2, user.getBirth());
+            preparedStatement.setInt(3, searchIDAccount(user.getEmail()));
             preparedStatement.setString(4, user.getPhoneNumber());
             preparedStatement.setString(5, user.getImage());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -57,8 +62,8 @@ public class UserDAO implements InterfaceDAO<User> {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 String name = rs.getString("userName");
-                LocalDate birth = LocalDate.parse(rs.getString("birth"));
-                String email = rs.getString("email");
+                int birth = Integer.parseInt(rs.getString("birth"));
+                String email = rs.getString("idEmail");
                 String phoneNumber = rs.getString("phoneNumber");
                 String image = rs.getString("image");
                 user = new User(id, name, birth, email,phoneNumber,image);
@@ -81,8 +86,8 @@ public class UserDAO implements InterfaceDAO<User> {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("userName");
-                LocalDate birth = LocalDate.parse(rs.getString("birth"));
-                String email = rs.getString("email");
+                int birth = Integer.parseInt(rs.getString("birth"));
+                String email = rs.getString("idEmail");
                 String phoneNumber = rs.getString("phoneNumber");
                 String image = rs.getString("image");
                 users.add(new User(id, name,birth, email,phoneNumber,image));
@@ -112,4 +117,14 @@ public class UserDAO implements InterfaceDAO<User> {
         }
         return rowUpdated;
     }
+    public int searchIDAccount(String email){
+        int idAccount = 0;
+        List<Account> accounts = accountDAO.selectAll();
+        for (Account account:accounts) {
+            if(account.getEmail().equals(email)){
+                idAccount = account.getId();
+            }
+        }return idAccount;
+    }
+
 }
