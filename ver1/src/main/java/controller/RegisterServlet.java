@@ -133,6 +133,7 @@ public class RegisterServlet  extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String pass = req.getParameter("password");
+        String passRe = req.getParameter("passwordRe");
 
         Account account = new Account(id,name, email, pass);
         try {
@@ -157,7 +158,7 @@ public class RegisterServlet  extends HttpServlet {
 
         boolean accountCheck = false;
         for (Account account: accounts ) {
-            if((account.getName().equals(name)) || (account.getEmail().equals(email))){
+            if((account.getName().equals(name)) || (account.getEmail().equals(email)) ){
                 req.setAttribute("account", account);
                 accountCheck = true;
                 requestDispatcher = req.getRequestDispatcher("register/register.jsp");
