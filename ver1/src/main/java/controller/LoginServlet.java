@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
             if((account.getName().equals(user))  && (account.getPassword().equals(pass))){
                 req.setAttribute("account", account.getName());
                 accountCheck = true;
-                requestDispatcher = req.getRequestDispatcher("login/home.jsp");
+                requestDispatcher = req.getRequestDispatcher("login/home1.jsp");
                 requestDispatcher.forward(req, resp);
             }
         }

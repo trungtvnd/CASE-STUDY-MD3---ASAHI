@@ -181,7 +181,7 @@ public class BookServlet extends HttpServlet {
         req.setAttribute("publishes", publishes);
         List<Book> books = bookDAO.selectAllBook();
         req.setAttribute("books", books);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view1.jsp");
         try {
             requestDispatcher.forward(req, resp);
         } catch (ServletException | IOException e) {
@@ -227,7 +227,7 @@ public class BookServlet extends HttpServlet {
         req.setAttribute("positions", positions);
         List<Book> books = bookDAO.sortBookByPublish(namePublish);
         req.setAttribute("books", books);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view1.jsp");
         try {
             requestDispatcher.forward(req, resp);
         } catch (ServletException | IOException e) {
@@ -247,7 +247,7 @@ public class BookServlet extends HttpServlet {
 
         List<Book> books = bookDAO.sortBookByPosition(namePosition);
         req.setAttribute("books", books);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view1.jsp");
         try {
             requestDispatcher.forward(req, resp);
         } catch (ServletException | IOException e) {
@@ -266,7 +266,7 @@ public class BookServlet extends HttpServlet {
         req.setAttribute("publishes", publishes);
         List<Book> books = bookDAO.sortBookByAuthor(nameAuthor);
         req.setAttribute("books", books);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view1.jsp");
         try {
             requestDispatcher.forward(req, resp);
         } catch (ServletException | IOException e) {
@@ -355,7 +355,7 @@ public class BookServlet extends HttpServlet {
 
         List<Book> books = bookDAO.searchBook("%"+request.getParameter("searchBook")+"%");
         request.setAttribute("books", books);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("library/view.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("library/view1.jsp");
         try {
             requestDispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
@@ -366,7 +366,7 @@ public class BookServlet extends HttpServlet {
     public void searchBookPBL(HttpServletRequest request, HttpServletResponse response) {
         List<Book> books = bookDAO.searchBookByPBL("%"+request.getParameter("searchBookByPBL")+"%","%"+request.getParameter("searchBook")+"%");
         request.setAttribute("books", books);
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("library/view.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("library/view1.jsp");
         try {
             requestDispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
@@ -378,7 +378,7 @@ public class BookServlet extends HttpServlet {
         if(sort.equals("Publish")){
             List<Publish>publishes = publishDAO.selectAll();
             req.setAttribute("publishes", publishes);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view.jsp");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view1.jsp");
             try {
                 requestDispatcher.forward(req, resp);
             } catch (ServletException | IOException e) {
