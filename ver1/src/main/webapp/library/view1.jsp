@@ -297,7 +297,7 @@
         }
 
         /* Change the background color of the dropdown button when the dropdown content is shown */
-        .dropbtn:hover {
+        .dropdown:hover .dropbtn {
             background-color: #3e8e41;
         }
 
@@ -322,13 +322,11 @@
             border-bottom: 1px solid #f48fb1;
             box-shadow: 0 1px 0 0 #f48fb1;
         }
-
         .input-group.md-form.form-sm.form-2 input {
             border: 1px solid #bdbdbd;
             border-top-left-radius: 0.25rem;
             border-bottom-left-radius: 0.25rem;
         }
-
         .input-group.md-form.form-sm.form-2 input.red-border {
             border: 1px solid #ef9a9a;
         }
@@ -357,7 +355,7 @@
             <ul class="nav navbar-nav">
                 <li class="active">
                     <div class="dropdown">
-                        <button class="dropbtn">Home <span class="glyphicon glyphicon-home "></span></button>
+                        <button  class="dropbtn"><a style="text-decoration: none; color: white" href="login/home1.jsp">Home </a><span class="glyphicon glyphicon-home "></span></button>
                     </div>
                     <div class="dropdown">
                         <button class="dropbtn">
