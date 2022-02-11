@@ -13,17 +13,19 @@
       height: 200px;
       background: #aaa;
     }
+    .displayUser{
+      float: right;
+    }
   </style>
 </head>
 <body>
-<div>
+<div class="displayUser">
   <table>
     <tr>
-      <td>Welcome: ${username}</td>
+      <td>Welcome:<a href=""> ${account}, </a></td>
       <td><a href="/login">Log out</a></td>
     </tr>
   </table>
-  
 </div>
 <div class="jumbotron text-center" style="margin-bottom:0">
   <h1>MANAGEMENT SYSTEM</h1>
