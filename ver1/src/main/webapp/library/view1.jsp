@@ -386,20 +386,28 @@
             <div class="col-sm-3">
 
                 <div class="panel panel-primary">
+
                     <div class="panel-heading">${book.getName()}</div>
+
                     <div class="panel-body"><img
                             src="${book.getImage()}"
                             class="img-responsive" style="width:80%; margin: auto" alt="Image"></div>
                     <div class="panel-footer">
                         <button class="btn btn-success btn"><a style="color: white" class="httpDirect"
-                                                                  href="${pageContext.request.contextPath}/books?action=edit&id=${book.getId()}"><span
+                                                               href="${pageContext.request.contextPath}/books?action=view&id=${book.getId()}"><span
+                                class="glyphicon glyphicon-book"></span>Detail</a>
+                        </button>
+                        <button class="btn btn-success btn"><a style="color: white" class="httpDirect"
+                                                               href="${pageContext.request.contextPath}/books?action=edit&id=${book.getId()}"><span
                                 class="glyphicon glyphicon-edit"></span>Edit</a>
                         </button>
-                        <button class="btn btn-success btn"><a style="color: white"  class="httpDirect"
-                                                                  href="${pageContext.request.contextPath}/books?action=delete&id=${book.getId()}"><span
+                        <button class="btn btn-success btn"><a style="color: white" class="httpDirect"
+                                                               href="${pageContext.request.contextPath}/books?action=delete&id=${book.getId()}"><span
                                 class="glyphicon glyphicon-trash "></span>Delete</a>
                         </button>
+
                     </div>
+
                 </div>
 
             </div>
