@@ -412,7 +412,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" onclick="location.href='#';" style="cursor:pointer;">
                 <div class="panel-heading">Political & Law </div>
                 <div class="panel-body"><img
                         src="https://1.bp.blogspot.com/-RPdEvwiXsso/T8Ncc2PWQ9I/AAAAAAAAAE4/7n9szTDA9hQ/s1600/law.jpg"
@@ -421,7 +421,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" onclick="location.href='#';" style="cursor:pointer;">
                 <div class="panel-heading">Science</div>
                 <div class="panel-body"><img src="https://cdn1.byjus.com/wp-content/uploads/2020/09/Science.png"
                                              class="img-responsive" style="width:100%" alt="Image"></div>
@@ -429,7 +429,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" onclick="location.href='#';" style="cursor:pointer;">
                 <div class="panel-heading">Economic</div>
                 <div class="panel-body"><img
                         src="https://cdn.vietnambiz.vn/2019/8/30/001372acd7d3136c30eb34-1567136819514101698650-15671369070471788017558.png"
@@ -444,7 +444,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" onclick="location.href='#';" style="cursor:pointer;">
                 <div class="panel-heading">Literature & Art</div>
                 <div class="panel-body"><img
                         src="https://continuingstudies.uvic.ca/upload/Arts/News/ARTS-How-arts-benefits-us-all_original.jpg"
@@ -453,7 +453,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" onclick="location.href='#';" style="cursor:pointer;">
                 <div class="panel-heading">Cultural & Historical</div>
                 <div class="panel-body"><img
                         src="https://www.re-thinkingthefuture.com/wp-content/uploads/2020/01/A471-RICH-CULTURAL-HISTORY-OF-DELHI-IMAGE-2-1024x699.jpg"
@@ -462,7 +462,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" onclick="location.href='#';" style="cursor:pointer;">
                 <div class="panel-heading">Curriculum</div>
                 <div class="panel-body"><img
                         src="https://previews.123rf.com/images/dizanna/dizanna1612/dizanna161200573/68077083-curriculum-word-cloud-concetto-di-business-dell-educazione.jpg"
@@ -471,7 +471,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" onclick="location.href='#';" style="cursor:pointer;">
                 <div class="panel-heading">Story & Novel</div>
                 <div class="panel-body"><img src="https://mastersreview.com/files/2016/05/story-today-2-1-768x414.jpg"
                                              class="img-responsive" style="width:100%" alt="Image"></div>
@@ -479,7 +479,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" onclick="location.href='#';" style="cursor:pointer;">
                 <div class="panel-heading">Mentality, Spirituality & Religion</div>
                 <div class="panel-body"><img src="https://nghiencuuquocte.org/wp-content/uploads/2020/03/religions.jpg"
                                              class="img-responsive" style="width:100%" alt="Image"></div>
@@ -487,7 +487,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" onclick="location.href='#';" style="cursor:pointer;">
                 <div class="panel-heading">Children</div>
                 <div class="panel-body"><img
                         src="https://img.freepik.com/free-vector/children-playing-park_29937-3636.jpg?w=996"
