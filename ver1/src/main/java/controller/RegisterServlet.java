@@ -157,7 +157,7 @@ public class RegisterServlet  extends HttpServlet {
 
         boolean accountCheck = false;
         for (Account account: accounts ) {
-            if((account.getName().equals(name)) && (account.getEmail().equals(email)) && (account.getPassword().equals(pass))){
+            if((account.getName().equals(name)) || (account.getEmail().equals(email)) || (account.getPassword().equals(pass))){
                 req.setAttribute("account", account);
                 accountCheck = true;
                 requestDispatcher = req.getRequestDispatcher("register/register.jsp");
