@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/home1.css">
+    <link rel="stylesheet" href="home1.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
@@ -323,6 +323,7 @@
         }
         .jumbotron{
             background-image: url("https://mcdn.wallpapersafari.com/medium/55/22/P5ABoL.jpg");
+            width: 100%;
         }
     </style>
 </head>
@@ -331,7 +332,7 @@
 <div class="jumbotron">
     <div class="container text-center">
         <h1>ASAHI LIBRARY</h1>
-        <img class="logo" src="library.png" alt="" >
+        <img class="logo" src="login/library.png" alt="" >
     </div>
 </div>
 
@@ -360,17 +361,14 @@
                 <%--                <li><a href="/books?action=joinType">KIND OF BOOK</a></li>--%>
                 <li>
                     <div class="dropdown">
-                        <button class="dropbtn">Kind of book<span class="glyphicon glyphicon-sort"></span></button>
+                        <button class="dropbtn">Pulish<span class="glyphicon glyphicon-sort"></span></button>
                         <div class="dropdown-content">
-                            <a href="#" class="titlebook">Political & Law</a>
-                            <a href="#">Science</a>
-                            <a href="#">Economic</a>
-                            <a href="#">Literature & Art</a>
-                            <a href="#">Cultural & Historical</a>
-                            <a href="#">Curriculum</a>
-                            <a href="#">Story & Novel</a>
-                            <a href="#">Mentality, Spirituality & Religion</a>
-                            <a href="#">Children</a>
+                            <c:forEach items="${publishes}" var="publish">
+                                <label>
+                                    <a href="/books?action=sortByPublish&sortByPublish=${publish.getName()}">${publish.getName()}</a>
+                                </label>
+
+                            </c:forEach>
                         </div>
                     </div>
                 </li>
@@ -380,7 +378,9 @@
                         <button class="dropbtn">Positions<span class="glyphicon glyphicon-sort"></span></button>
                         <div class="dropdown-content">
                             <c:forEach items="${positions}" var="position">
-                                <a href="#"> ${position.getName()}</a>
+                                <label>
+                                    <a href="/books?action=sortByPosition&sortByPosition=${position.getName()}">${position.getName()}</a>
+                                </label>
                             </c:forEach>
                         </div>
                     </div>
@@ -391,14 +391,16 @@
                         <button class="dropbtn">Authors<span class="glyphicon glyphicon-sort"></span></button>
                         <div class="dropdown-content">
                             <c:forEach items="${authors}" var="author">
-                                <a href="#"> ${author.getName()}</a>
+                                <label>
+                                    <a href="/books?action=sortByAuthor&sortByAuthor=${author.getName()}">${author.getName()}</a>
+                                </label>
                             </c:forEach>
                         </div>
                     </div>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> ${username}</a></li>
+                <li><a href="/register?action=displayUser&username=${username}"><span class="glyphicon glyphicon-user"></span> ${username}</a></li>
                 <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
@@ -411,7 +413,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Political & Law </div>
                 <div class="panel-body"><img
-                        src="http://1.bp.blogspot.com/-RPdEvwiXsso/T8Ncc2PWQ9I/AAAAAAAAAE4/7n9szTDA9hQ/s1600/law.jpg"
+                        src="https://1.bp.blogspot.com/-RPdEvwiXsso/T8Ncc2PWQ9I/AAAAAAAAAE4/7n9szTDA9hQ/s1600/law.jpg"
                         class="img-responsive" style="width:100%" alt="Image"></div>
                 <div class="panel-footer">We have ${x} Political & Law books</div>
             </div>
@@ -477,7 +479,7 @@
         <div class="col-sm-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">Mentality, Spirituality & Religion</div>
-                <div class="panel-body"><img src="http://nghiencuuquocte.org/wp-content/uploads/2020/03/religions.jpg"
+                <div class="panel-body"><img src="https://nghiencuuquocte.org/wp-content/uploads/2020/03/religions.jpg"
                                              class="img-responsive" style="width:100%" alt="Image"></div>
                 <div class="panel-footer">We have ${x} Mentality, Spirituality & Religion books</div>
             </div>
@@ -498,7 +500,9 @@
 <footer class="container-fluid text-center">
     <p>Online Store Copyright</p>
     <form class="form-inline">Get deals:
-        <input type="email" class="form-control" size="50" placeholder="Email Address">
+        <label>
+            <input type="email" class="form-control" size="50" placeholder="Email Address">
+        </label>
         <button type="button" class="btn btn-danger">Sign Up</button>
     </form>
 </footer>

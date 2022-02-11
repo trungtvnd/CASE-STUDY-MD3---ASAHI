@@ -18,6 +18,7 @@ public class PublishDAO implements InterfaceDAO<Publish> {
     private static final String SELECT_ALL_PUBLISH = "select * from publish";
     private static final String UPDATE_PUBLISH_SQL = "update publish set name = ?,address= ?, email =? where id = ?;";
 
+
     public PublishDAO() {
     }
 

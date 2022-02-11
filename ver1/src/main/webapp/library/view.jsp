@@ -86,10 +86,20 @@
 </div>
 <button class="btn btn-success"><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=create">Create New Book</a></button>
 <button class="btn btn-success"><a class="httpDirect" href="${pageContext.request.contextPath}/books?action=books">Back To Book List</a></button>
-
+<div style="float: right">
+    <c:if test="${requestScope['checkView'] == true}">
+        <label><span>Quantity :</span> <input style="color: red; width: 50px" type="text" value="${quantityAllBook}"></label>
+    </c:if>
+    <c:if test="${requestScope['checkPublish'] == true}">
+        <label>Quantity: <input style="color: red; width: 50px" type="text" value="${quantityPublish}"></label>
+    </c:if>
+    <c:if test="${requestScope['checkPosition'] == true}">
+        <label>Quantity: <input style="color: red; width: 50px" type="text" value="${quantityPosition}"></label>
+    </c:if>
+</div>
 <div class="display">
     <c:if test="${requestScope['books'].isEmpty()}">
-        <h2 style="color: red">Not Found</h2>
+        <h4 style="color: red">Not Found</h4>
     </c:if>
 
     <table class="displayTable">

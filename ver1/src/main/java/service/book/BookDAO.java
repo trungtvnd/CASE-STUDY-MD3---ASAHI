@@ -57,6 +57,8 @@ public class BookDAO implements IBookDAO {
             "JOIN publish p ON p.id = books.idPublish\n" +
             "JOIN positions ON positions.id = books.idPosition WHERE p.name = ?  ";
 
+    private static final String SELECT_QUANTITY_BOOK = "SELECT quantity FROM quantityAllBook";
+
 
     public BookDAO() {
     }
@@ -321,6 +323,22 @@ public class BookDAO implements IBookDAO {
         }
         return books;
     }
+
+    public int selectQuantityAllBook(){
+        int quantity = 0;
+        try {
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUANTITY_BOOK);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                quantity = resultSet.getInt("quantity");
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }return quantity;
+    }
+
+
 
 
 

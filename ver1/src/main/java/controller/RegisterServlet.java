@@ -36,10 +36,38 @@ public class RegisterServlet  extends HttpServlet {
                 case "create":
                     createGet(req, resp);
                     break;
+                case "displayUser":
+                    displayUser(req, resp);
+                    break;
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void displayUser(HttpServletRequest req, HttpServletResponse resp) {
+        String username = req.getParameter("username");
+        User user = userDAO.select(searchIDAccount(username));
+        req.setAttribute("user", user);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("user/viewDetail.jsp");
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private int searchIDAccount(String username) {
+        List<Account> accounts = accountDAO.selectAll();
+        int idAccount = 0;
+        for (Account account:accounts) {
+            if(account.getName().equals(username)){
+                idAccount = account.getId();
+            }
+        }return idAccount;
     }
 
 
