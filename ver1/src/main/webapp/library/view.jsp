@@ -10,13 +10,34 @@
 <html>
 <head>
     <title>Display Books</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
 
         .imgTable{
             width: 80px;
             height: 120px;
         }
-
+        table{
+            border: black solid 1px;
+            border-collapse: collapse;
+            border-radius: 5px;
+            width: 100%;
+        }
+        table tr,th,td {
+            padding: 5px;
+            text-align: center;
+        }
+        tr:hover{
+            background-color:#ddd;
+            cursor:pointer;
+        }
+        tr:nth-child(even) td{
+            /*background-color: rgba(245, 221, 136, 0.99);*/
+            background-color: rgba(50, 115, 220, 0.3);
+        }
+        .trTable{
+            background-color: antiquewhite;
+        }
     </style>
 
 </head>
