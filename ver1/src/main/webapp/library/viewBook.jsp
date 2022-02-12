@@ -13,16 +13,17 @@
         body, html {
             font-family: "Times New Roman";
         }
+
     </style>
 </head>
 <body>
 <div>
     <p>
-        <button> <a href="${pageContext.request.contextPath}/books">Back to Book List</a></button>
+        <button> <a href="${pageContext.request.contextPath}/books"> <span class="glyphicon glyphicon-log-out"></span>Back to Book List</a></button>
     </p>
     <table>
         <tr>
-            <td>Name: </td>
+            <td class="headers-region">Name: </td>
             <td>${requestScope["book"].getName()}</td>
         </tr>
         <tr>

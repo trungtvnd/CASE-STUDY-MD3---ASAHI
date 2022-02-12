@@ -397,14 +397,14 @@
 
 <div style="float: right">
     <c:if test="${requestScope['checkView'] == true}">
-        <label><span>Quantity :</span> <input style="color: red; width: 50px" type="text"
+        <label><span style="font-family: cursive">Quantity :</span> <input style="color: red; width: 50px" type="text"
                                               value="${quantityAllBook}"></label>
     </c:if>
     <c:if test="${requestScope['checkPublish'] == true}">
-        <label>Quantity: <input style="color: red; width: 50px" type="text" value="${quantityPublish}"></label>
+        <label  style="font-family: cursive">Quantity: <input style="color: red; width: 50px" type="text" value="${quantityPublish}"></label>
     </c:if>
     <c:if test="${requestScope['checkPosition'] == true}">
-        <label>Quantity: <input style="color: red; width: 50px" type="text" value="${quantityPosition}"></label>
+        <label  style="font-family: cursive">Quantity: <input style="color: red; width: 50px" type="text" value="${quantityPosition}"></label>
     </c:if>
 </div>
 
@@ -416,7 +416,7 @@
                 <div class="panel panel-primary"
                      onclick="location.href='${pageContext.request.contextPath}/books?action=view&id=${book.getId()}';"
                      style="cursor:pointer;">
-                    <div class="panel-heading">${book.getName()}</div>
+                    <div class="panel-heading" style="font-size: medium">${book.getName()}</div>
                     <div class="panel-body"><img
                             src="${book.getImage()}"
                             class="img-responsive" style="width:80%; margin: auto" alt="Image"></div>
