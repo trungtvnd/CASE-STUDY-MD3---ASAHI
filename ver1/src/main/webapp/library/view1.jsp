@@ -336,7 +336,7 @@
 <body>
 <div class="jumbotron">
     <div class="container text-center">
-        <h1>ASAHI LIBRARY</h1>
+        <h1 style=" font-family: 'Nothing You Could Do',cursive;">ASAHI LIBRARY</h1>
         <img class="logo" src="/picture/library.png" alt="">
     </div>
 </div>
@@ -355,12 +355,18 @@
             <ul class="nav navbar-nav">
                 <li class="active">
                     <div class="dropdown">
-                        <button  class="dropbtn"><a style="text-decoration: none; color: white" href="${pageContext.request.contextPath}/login?action=home">Home</a><span class="glyphicon glyphicon-home "></span></button>
-                        <button class="btn btn-success">
-                            <a class="httpDirect" href="${pageContext.request.contextPath}/books?action=create">
+                        <button  class="dropbtn"><a style="text-decoration: none; color: white" href="login/home1.jsp">Home </a><span class="glyphicon glyphicon-home "></span></button>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropbtn">
+                            <a class="httpDirect" href="${pageContext.request.contextPath}/books?action=create"
+                               style="color: white">
                                 <span class="glyphicon glyphicon-pencil"></span> Create New Book</a></button>
-                        <button class="btn btn-success">
-                            <a class="httpDirect" href="${pageContext.request.contextPath}/books?action=books">
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropbtn">
+                            <a class="httpDirect" href="${pageContext.request.contextPath}/books?action=books"
+                               style="color: white">
                                 <span
                                         class="glyphicon glyphicon-log-out"></span> Back To Book List</a></button>
                     </div>
@@ -369,25 +375,17 @@
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <%--                    <form action="${pageContext.request.contextPath}/books?action=search" method="post">--%>
-                    <%--                        <label><input type="text" name="searchBook" placeholder="Name of Book"></label>--%>
-                    <%--                        <label><input type="submit" value="SEARCH"></label>--%>
-                    <%--                    </form>--%>
-                    <%--                    <form class="form-inline d-flex justify-content-center md-form form-sm active-pink-2 mt-2">--%>
-                    <%--                        <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"--%>
-                    <%--                               aria-label="Search">--%>
-                    <%--                        <i class="fas fa-search" aria-hidden="true"></i>--%>
-                    <%--                    </form>--%>
-                    <div class="input-group md-form form-sm form-2 pl-0">
-                        <input class="form-control my-0 py-1 red-border" type="text" placeholder="Search"
-                               aria-label="Search">
-                        <div class="input-group-append">
-                        <span class="input-group-text red lighten-3" id="basic-text1"><i class="fas fa-search text-grey"
-                                                                     aria-hidden="true"></i></span>
-                        </div>
+                <li style="width: 300px;height: 55px;">
+                    <div class="input-group" style="top: 50%;transform: translateY(-50%);">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" style="height: 100%;padding: 9px 12px;">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
                     </div>
                 </li>
+
 
             </ul>
         </div>
@@ -422,11 +420,11 @@
                     <div class="panel-footer">
                         <button class="btn btn-success btn"><a style="color: white" class="httpDirect"
                                                                href="${pageContext.request.contextPath}/books?action=edit&id=${book.getId()}"><span
-                                class="glyphicon glyphicon-edit"></span>Edit</a>
+                                class="glyphicon glyphicon-edit"></span> Edit</a>
                         </button>
                         <button class="btn btn-success btn"><a style="color: white" class="httpDirect"
                                                                href="${pageContext.request.contextPath}/books?action=delete&id=${book.getId()}"><span
-                                class="glyphicon glyphicon-trash "></span>Delete</a>
+                                class="glyphicon glyphicon-trash "></span> Delete</a>
                         </button>
 
                     </div>
