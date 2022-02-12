@@ -9,6 +9,11 @@
 <html>
 <head>
     <title>View Detail Book</title>
+    <style>
+        body, html {
+            font-family: "Times New Roman";
+        }
+    </style>
 </head>
 <body>
 <div>

@@ -354,7 +354,7 @@
                 </li>
                 <li>
                     <div class="dropdown">
-                        <button class="dropbtn"><a href="${pageContext.request.contextPath}/books" style="color: white">Books <span class="glyphicon glyphicon-th-list "></span></a></button>
+                        <button class="dropbtn"><a href="${pageContext.request.contextPath}/books" style="color: white ;text-decoration: none;">Books <span class="glyphicon glyphicon-th-list "></span></a></button>
                     </div>
                 </li>
 

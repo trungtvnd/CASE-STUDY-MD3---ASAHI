@@ -22,6 +22,7 @@
             padding: 0;
             margin: 0;
             text-align: center;
+            font-family: "Times New Roman";
         }
 
         /* Styles the thumbnail */
@@ -360,13 +361,13 @@
                     <div class="dropdown">
                         <button class="dropbtn">
                             <a class="httpDirect" href="${pageContext.request.contextPath}/books?action=create"
-                               style="color: white">
+                               style="color: white ; text-decoration: none;">
                                 <span class="glyphicon glyphicon-pencil"></span> Create New Book</a></button>
                     </div>
                     <div class="dropdown">
                         <button class="dropbtn">
                             <a class="httpDirect" href="${pageContext.request.contextPath}/books?action=books"
-                               style="color: white">
+                               style="color: white; text-decoration: none;">
                                 <span
                                         class="glyphicon glyphicon-log-out"></span> Back To Book List</a></button>
                     </div>
@@ -377,7 +378,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li style="width: 300px;height: 55px;">
                     <form action="${pageContext.request.contextPath}/books?action=search" method="post">
-                    <div class="input-group" style="top: 50%;transform: translateY(-50%);">
+                    <div class="input-group" style="top: 40%;transform: translateY(30%);">
                         <input type="text" class="form-control" name="searchBook" placeholder="Search for...">
                         <span class="input-group-btn">
                     <button class="btn btn-default" type="submit" style="height: 100%;padding: 9px 12px;">
