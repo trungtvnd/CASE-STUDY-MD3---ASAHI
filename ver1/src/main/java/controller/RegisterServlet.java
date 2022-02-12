@@ -30,14 +30,20 @@ public class RegisterServlet  extends HttpServlet {
         }
         try {
             switch (action) {
-                case "edit":
-                    editGet(req, resp);
-                    break;
+//                case "edit":
+//                    editGet(req, resp);
+//                    break;
                 case "create":
                     createGet(req, resp);
                     break;
+                case "createUser":
+                    createUserGet(req, resp);
+                    break;
                 case "displayUser":
                     displayUser(req, resp);
+                    break;
+                case "editUser":
+                    editUserGet(req, resp);
                     break;
 
             }
@@ -46,10 +52,36 @@ public class RegisterServlet  extends HttpServlet {
         }
     }
 
-    private void displayUser(HttpServletRequest req, HttpServletResponse resp) {
+    private void createUserGet(HttpServletRequest req, HttpServletResponse resp) {
         String username = req.getParameter("username");
-        User user = userDAO.selectUserByIDEmail(searchIDAccount(username));
+        Account account = searchAccountByAccountName(username);
+        req.setAttribute("account", account);
+       RequestDispatcher requestDispatcher = req.getRequestDispatcher("user/create.jsp");
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public Account searchAccountByAccountName(String accountName){
+        List<Account>accounts = accountDAO.selectAll();
+        Account accountSearch = null;
+        for (Account account:accounts) {
+            if(account.getName().equals(accountName)){
+                accountSearch = account;
+            }
+        }return accountSearch;
+    }
+
+    private void editUserGet(HttpServletRequest req, HttpServletResponse resp) {
+        int id = Integer.parseInt(req.getParameter("id"));
+        User user = userDAO.selectUserByIDEmail(searchIDAccount(searchUsername(id)));
+        boolean check = true;
+        req.setAttribute("checkEdit", check);
+//        req.setAttribute("userEdit", user);
         req.setAttribute("user", user);
+
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("user/viewDetail.jsp");
         try {
             requestDispatcher.forward(req, resp);
@@ -57,7 +89,21 @@ public class RegisterServlet  extends HttpServlet {
             e.printStackTrace();
         }
 
+    }
 
+    private void displayUser(HttpServletRequest req, HttpServletResponse resp) {
+        String username = req.getParameter("username");
+        User user = userDAO.selectUserByIDEmail(searchIDAccount(username));
+        boolean check = true;
+        req.setAttribute("username", username);
+        req.setAttribute("user", user);
+        req.setAttribute("checkView", check);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("user/viewDetail.jsp");
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private int searchIDAccount(String username) {
@@ -102,10 +148,37 @@ public class RegisterServlet  extends HttpServlet {
             case "creatUser":
               createUser(req, resp);
                 break;
-            case "edit":
-                editPost(req, resp);
+//            case "editUser":
+//                editUser(req, resp);
+//                break;
+            case "editUser":
+                editUserPost(req, resp);
                 break;
         }
+    }
+
+    private void editUserPost(HttpServletRequest req, HttpServletResponse resp) {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
+        String phone = req.getParameter("phone");
+        int birth = Integer.parseInt(req.getParameter("birth"));
+        String email = req.getParameter("email");
+        String image = req.getParameter("image");
+        User user = new User(id, name, birth, email, phone, image );
+        try {
+            userDAO.update(user);
+            boolean check = true;
+            req.setAttribute("user", user);
+            req.setAttribute("checkView", check);
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("user/viewDetail.jsp");
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+
     }
 
     private void createUser(HttpServletRequest req, HttpServletResponse resp) {
@@ -127,7 +200,7 @@ public class RegisterServlet  extends HttpServlet {
         }
     }
 
-    private void editPost(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
+    private void editUser(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
         RequestDispatcher requestDispatcher;
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
@@ -177,6 +250,22 @@ public class RegisterServlet  extends HttpServlet {
             }
         }
 
+    }
+    public String searchUsername(int idUser){
+        List<User> users = userDAO.selectAll();
+        List<Account> accounts = accountDAO.selectAll();
+        String username = null;
+        int idEmail = 0;
+        for (User user:users) {
+            if(user.getId() == idUser){
+                idEmail = Integer.parseInt(user.getEmail());
+            }
+        }
+        for (Account account:accounts) {
+            if(idEmail == account.getId()){
+                username = account.getName();
+            }
+        }return username;
     }
 
 

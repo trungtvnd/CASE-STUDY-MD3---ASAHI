@@ -169,9 +169,6 @@
             font-size: 20px;
         }
 
-        body {
-
-        }
 
         /* Style The Dropdown Button */
         .dropbtn {
@@ -363,13 +360,10 @@
                 <%--                <li><a href="/books?action=joinType">KIND OF BOOK</a></li>--%>
                 <li>
                     <div class="dropdown">
-                        <button class="dropbtn">Pulish<span class="glyphicon glyphicon-sort"></span></button>
+                        <button class="dropbtn">Publish<span class="glyphicon glyphicon-sort"></span></button>
                         <div class="dropdown-content">
                             <c:forEach items="${publishes}" var="publish">
-                                <label>
-                                    <a href="/books?action=sortByPublish&sortByPublish=${publish.getName()}">${publish.getName()}</a>
-                                </label>
-
+                                    <a href="${pageContext.request.contextPath}/books?action=sortByPublish&sortByPublish=${publish.getName()}">${publish.getName()}</a>
                             </c:forEach>
                         </div>
                     </div>
@@ -381,7 +375,7 @@
                         <div class="dropdown-content">
                             <c:forEach items="${positions}" var="position">
                                 <label>
-                                    <a href="/books?action=sortByPosition&sortByPosition=${position.getName()}">${position.getName()}</a>
+                                    <a href="${pageContext.request.contextPath}/books?action=sortByPosition&sortByPosition=${position.getName()}">${position.getName()}</a>
                                 </label>
                             </c:forEach>
                         </div>
@@ -393,17 +387,15 @@
                         <button class="dropbtn">Authors<span class="glyphicon glyphicon-sort"></span></button>
                         <div class="dropdown-content">
                             <c:forEach items="${authors}" var="author">
-                                <label>
-                                    <a href="/books?action=sortByAuthor&sortByAuthor=${author.getName()}">${author.getName()}</a>
-                                </label>
+                                    <a href="${pageContext.request.contextPath}/books?action=sortByAuthor&sortByAuthor=${author.getName()}">${author.getName()}</a>
                             </c:forEach>
                         </div>
                     </div>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/register?action=displayUser&username=${username}"><span class="glyphicon glyphicon-user"></span> ${username}</a></li>
-                <li><a href="/login/login.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                <li><a href="${pageContext.request.contextPath}/register?action=displayUser&username=${account.name}"><span class="glyphicon glyphicon-user"></span> ${account.name}</a></li>
+                <li><a href="${pageContext.request.contextPath}/login/login.jsp"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             </ul>
         </div>
     </div>
