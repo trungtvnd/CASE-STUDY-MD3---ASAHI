@@ -65,6 +65,9 @@ public class BookServlet extends HttpServlet {
                 case "sortByPosition":
                     sortByPosition(req, resp);
                     break;
+                case "sortByType":
+                    sortByType(req, resp);
+                    break;
 
                 default:
                     listBook(req, resp);
@@ -75,6 +78,29 @@ public class BookServlet extends HttpServlet {
         }
     }
 
+    private void sortByType(HttpServletRequest req, HttpServletResponse resp) {
+        List<Publish> publishes = publishDAO.selectAll();
+        req.setAttribute("publishes", publishes);
+        List<Position> positions = positionDao.selectAll();
+        List<Author> authors = authorDAO.selectAll();
+        req.setAttribute("authors", authors);
+        req.setAttribute("positions", positions);
+        String type = ("%"+req.getParameter("type")+"%");
+        List<Book> books = bookDAO.selectBookByType(type);
+        int quantityOfType = bookDAO.searchQuantityOfType(type);
+        boolean checkView = true;
+        int quantity = bookDAO.selectQuantityAllBook();
+        req.setAttribute("books", books);
+        req.setAttribute("checkView", checkView);
+        req.setAttribute("quantityAllBook", quantityOfType);
+        req.setAttribute("books", books);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view1.jsp");
+        try {
+            requestDispatcher.forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     private void joinType(HttpServletRequest req, HttpServletResponse resp) {
@@ -133,12 +159,14 @@ public class BookServlet extends HttpServlet {
         try {
             bookDAO.deleteBook(id);
             positionDao.minusQuantityPosition(positionDao.select(idPosition));
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        int quantity = bookDAO.selectQuantityAllBook();
         List<Book> books = bookDAO.selectAllBook();
-
+        req.setAttribute("quantityAllBook", quantity);
         req.setAttribute("books", books);
         RequestDispatcher dispatcher = req.getRequestDispatcher("library/view1.jsp");
         try {
@@ -289,7 +317,6 @@ public class BookServlet extends HttpServlet {
     }
 
 
-
     private void editPost(HttpServletRequest req, HttpServletResponse resp) {
         RequestDispatcher requestDispatcher;
         int id = Integer.parseInt(req.getParameter("id"));
@@ -306,7 +333,7 @@ public class BookServlet extends HttpServlet {
         try {
             int idPosition = positionDao.searchIDPosition(id);
             positionDao.minusQuantityPosition(positionDao.select(idPosition));
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
@@ -340,7 +367,7 @@ public class BookServlet extends HttpServlet {
         RequestDispatcher requestDispatcher;
         try {
             int quantityAfterCreate = positionDao.getQuantityPosition(positionID) + 1;
-            if(quantityAfterCreate <=10){
+            if (quantityAfterCreate <= 10) {
                 Book book = new Book(name, describe, language, status, type, yearPublish, image);
                 bookDAO.insertBook(book, author, positionID, publish);
                 positionDao.plusQuantityPosition(positionDao.select(positionID));
@@ -353,21 +380,21 @@ public class BookServlet extends HttpServlet {
                 req.setAttribute("publishes", publishes);
                 requestDispatcher = req.getRequestDispatcher("library/create.jsp");
                 requestDispatcher.forward(req, resp);
-            }else {
+            } else {
                 req.setAttribute("check", quantityAfterCreate);
                 requestDispatcher = req.getRequestDispatcher("library/create.jsp");
                 requestDispatcher.forward(req, resp);
             }
 
 
-        } catch (SQLException | IOException |ServletException e) {
+        } catch (SQLException | IOException | ServletException e) {
             e.printStackTrace();
         }
     }
 
     public void searchBook(HttpServletRequest request, HttpServletResponse response) {
 
-        List<Book> books = bookDAO.searchBook("%"+request.getParameter("searchBook")+"%");
+        List<Book> books = bookDAO.searchBook("%" + request.getParameter("searchBook") + "%");
         request.setAttribute("books", books);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("library/view1.jsp");
         try {
@@ -378,7 +405,7 @@ public class BookServlet extends HttpServlet {
     }
 
     public void searchBookPBL(HttpServletRequest request, HttpServletResponse response) {
-        List<Book> books = bookDAO.searchBookByPBL("%"+request.getParameter("searchBookByPBL")+"%","%"+request.getParameter("searchBook")+"%");
+        List<Book> books = bookDAO.searchBookByPBL("%" + request.getParameter("searchBookByPBL") + "%", "%" + request.getParameter("searchBook") + "%");
         request.setAttribute("books", books);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("library/view1.jsp");
         try {
@@ -387,10 +414,11 @@ public class BookServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
+
     private void sortBook(HttpServletRequest req, HttpServletResponse resp) {
         String sort = req.getParameter("sort");
-        if(sort.equals("Publish")){
-            List<Publish>publishes = publishDAO.selectAll();
+        if (sort.equals("Publish")) {
+            List<Publish> publishes = publishDAO.selectAll();
             req.setAttribute("publishes", publishes);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view1.jsp");
             try {

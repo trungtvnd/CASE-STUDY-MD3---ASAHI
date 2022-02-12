@@ -4,15 +4,14 @@ import model.JoinPosition;
 import model.JoinPublish;
 import model.JoinStatus;
 import model.JoinType;
+import myConnection.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JoinDAO {
-    private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
-    private String jdbcUsername = "root";
-    private String jdbcPassword = "12345678";
+    private final MyConnection myConnection = new MyConnection();
 
     private static final String JOIN_POSITION = "SELECT * FROM joinposition";
     private static final String JOIN_STATUS = "SELECT * FROM joinstatus";
@@ -20,20 +19,9 @@ public class JoinDAO {
     private static final String JOIN_PUBLISH = "SELECT * FROM joinpublish";
 
 
-    protected Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
-
     public List<JoinPosition> selectAllPosition() {
         List<JoinPosition> joinPositions = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(JOIN_POSITION);) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
@@ -51,7 +39,7 @@ public class JoinDAO {
 
     public List<JoinStatus> selectAllStatus() {
         List<JoinStatus> joinStatuses = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(JOIN_STATUS);) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
@@ -69,7 +57,7 @@ public class JoinDAO {
 
     public List<JoinType> selectAllType() {
         List<JoinType> joinTypes = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(JOIN_TYPE);) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
@@ -87,7 +75,7 @@ public class JoinDAO {
 
     public List<JoinPublish> selectAllPublish() {
         List<JoinPublish> joinPublishes = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(JOIN_PUBLISH);) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();

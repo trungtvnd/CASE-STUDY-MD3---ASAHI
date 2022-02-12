@@ -6,6 +6,7 @@ import model.Position;
 import model.Publish;
 import service.account.AccountDAO;
 import service.author.AuthorDAO;
+import service.book.BookDAO;
 import service.position.PositionDao;
 import service.publish.PublishDAO;
 
@@ -24,6 +25,7 @@ public class LoginServlet extends HttpServlet {
     private final AuthorDAO authorDAO = new AuthorDAO();
     private final PublishDAO publishDAO = new PublishDAO();
     private final PositionDao positionDao = new PositionDao();
+    private final BookDAO bookDAO = new BookDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -112,4 +114,6 @@ public class LoginServlet extends HttpServlet {
             }
         }
     }
+
+
 }

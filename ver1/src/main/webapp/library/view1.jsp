@@ -355,7 +355,7 @@
             <ul class="nav navbar-nav">
                 <li class="active">
                     <div class="dropdown">
-                        <button  class="dropbtn"><a style="text-decoration: none; color: white" href="login/home1.jsp">Home </a><span class="glyphicon glyphicon-home "></span></button>
+                        <button  class="dropbtn"><a style="text-decoration: none; color: white" href="${pageContext.request.contextPath}/login?action=home">Home </a><span class="glyphicon glyphicon-home "></span></button>
                     </div>
                     <div class="dropdown">
                         <button class="dropbtn">
@@ -376,14 +376,16 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li style="width: 300px;height: 55px;">
+                    <form action="${pageContext.request.contextPath}/books?action=search" method="post">
                     <div class="input-group" style="top: 50%;transform: translateY(-50%);">
-                        <input type="text" class="form-control" placeholder="Search for...">
+                        <input type="text" class="form-control" name="searchBook" placeholder="Search for...">
                         <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" style="height: 100%;padding: 9px 12px;">
-                        <span class="glyphicon glyphicon-search"></span>
+                    <button class="btn btn-default" type="submit" style="height: 100%;padding: 9px 12px;">
+                        <span class="glyphicon glyphicon-search"></span><a href=""></a>
                     </button>
                 </span>
                     </div>
+                    </form>
                 </li>
 
 

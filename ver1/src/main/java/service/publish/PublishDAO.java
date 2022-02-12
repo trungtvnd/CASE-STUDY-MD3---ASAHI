@@ -1,8 +1,7 @@
 package service.publish;
 
-import model.Author;
 import model.Publish;
-import service.InterfaceDAO;
+import InterfaceDAO.InterfaceDAO;
 
 import java.sql.*;
 import java.util.ArrayList;

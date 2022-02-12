@@ -1,20 +1,17 @@
 package service.user;
 
 import model.Account;
-import model.Publish;
 import model.User;
-import service.InterfaceDAO;
+import myConnection.MyConnection;
+import InterfaceDAO.InterfaceDAO;
 import service.account.AccountDAO;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements InterfaceDAO<User> {
-    private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
-    private String jdbcUsername = "root";
-    private String jdbcPassword = "12345678";
+private final MyConnection myConnection = new MyConnection();
     private final AccountDAO accountDAO = new AccountDAO();
 
 
@@ -32,21 +29,11 @@ public class UserDAO implements InterfaceDAO<User> {
     public UserDAO() {
     }
 
-    protected Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
 
     @Override
     public void insert(User user) throws SQLException {
         System.out.println(INSERT_USER_SQL);
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
+        try (Connection connection = myConnection.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setInt(2, user.getBirth());
             preparedStatement.setInt(3, searchIDAccount(user.getEmail()));
@@ -62,7 +49,7 @@ public class UserDAO implements InterfaceDAO<User> {
     @Override
     public User select(int id) {
         User user = null;
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID);) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
@@ -85,7 +72,7 @@ public class UserDAO implements InterfaceDAO<User> {
     @Override
     public List<User> selectAll() {
         List<User> users = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
 
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USER);) {
             System.out.println(preparedStatement);
@@ -114,7 +101,7 @@ public class UserDAO implements InterfaceDAO<User> {
     @Override
     public boolean update(User user) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_USER_SQL);) {
+        try (Connection connection = myConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_USER_SQL);) {
             statement.setString(1, user.getName());
             statement.setString(2, String.valueOf(user.getBirth()));
             statement.setString(3, user.getPhoneNumber());
@@ -139,7 +126,7 @@ public class UserDAO implements InterfaceDAO<User> {
 
     public User selectUserByIDEmail(int idEmail) {
         User user = null;
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_JOIN);) {
             preparedStatement.setInt(1, idEmail);
             System.out.println(preparedStatement);

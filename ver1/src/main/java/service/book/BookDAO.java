@@ -2,6 +2,7 @@ package service.book;
 
 
 import model.Book;
+import myConnection.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class BookDAO implements IBookDAO {
 
-
+    private final MyConnection myConnection = new MyConnection();
     private static final String INSERT_BOOKS_SQL = "INSERT INTO books(name, describle, language, status, type, image, yearPublish, idPublish, idAuthor, idPosition) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String SELECT_BOOKS_BY_ID = "SELECT books.id, books.name 'Name Of Book', a.name 'Author', books.describle 'Describe', books.language 'Language', books.status 'Status', books.type 'Type',p.name 'Publish', positions.name 'Position', books.yearPublish 'Year', books.image 'Image'\n" +
             "FROM books \n" +
@@ -59,28 +60,25 @@ public class BookDAO implements IBookDAO {
 
     private static final String SELECT_QUANTITY_BOOK = "SELECT quantity FROM quantityAllBook";
 
+    private static final String SELECT_TYPE_BOOK = "SELECT books.id, books.name 'Name Of Book', a.name 'Author', books.describle 'Describe', books.language 'Language', books.status 'Status', books.type 'Type',p.name 'Publish', positions.name 'Position', books.yearPublish 'Year', books.image 'Image'\n" +
+            "FROM books\n" +
+            "JOIN author a ON a.id = books.idAuthor\n" +
+            "JOIN publish p ON p.id = books.idPublish\n" +
+            "JOIN positions ON positions.id = books.idPosition\n" +
+            " WHERE books.type like ?;";
+    private static final String SELECT_QUANTITY_TYPE_BOOK = "SELECT jointype.Quantity"+
+            " FROM jointype\n" +
+            " Where jointype.Type like ?;";
+
 
     public BookDAO() {
     }
 
-    protected Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
-            String jdbcUsername = "root";
-            String jdbcPassword = "12345678";
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-        return connection;
-    }
 
     @Override
     public void insertBook(Book book, int author, int position, int publish) throws SQLException {
         try {
-            Connection connection = getConnection();
+            Connection connection = myConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_BOOKS_SQL);
             preparedStatement.setString(1, book.getName());
             preparedStatement.setString(2, book.getDescribe());
@@ -102,7 +100,7 @@ public class BookDAO implements IBookDAO {
     @Override
     public Book selectBook(int id) {
         Book book = null;
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BOOKS_BY_ID)) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
@@ -130,7 +128,7 @@ public class BookDAO implements IBookDAO {
     public List<Book> selectAllBook() {
         List<Book> books = new ArrayList<>();
         try {
-            Connection connection = getConnection();
+            Connection connection = myConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_BOOKS);
 
             ResultSet rs = preparedStatement.executeQuery();
@@ -158,7 +156,7 @@ public class BookDAO implements IBookDAO {
     @Override
     public boolean deleteBook(int id) throws SQLException {
         boolean rowDeleted;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_BOOKS_SQL)) {
+        try (Connection connection = myConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_BOOKS_SQL)) {
             statement.setInt(1, id);
             rowDeleted = statement.executeUpdate() > 0;
         }
@@ -168,7 +166,7 @@ public class BookDAO implements IBookDAO {
     @Override
     public boolean updateBook(Book book, int author, int position, int publish) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_BOOKS_SQL)) {
+        try (Connection connection = myConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_BOOKS_SQL)) {
             statement.setString(1, book.getName());
             statement.setString(2, book.getDescribe());
             statement.setString(3, book.getLanguage());
@@ -188,7 +186,7 @@ public class BookDAO implements IBookDAO {
 
     public List<Book> searchBook(String key) {
         List<Book> books = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_BOOK)) {
             preparedStatement.setString(1, key);
             System.out.println(preparedStatement);
@@ -216,7 +214,7 @@ public class BookDAO implements IBookDAO {
 
     public List<Book> searchBookByPBL(String publishKey,String nameBook) {
         List<Book> books = searchBook(nameBook);
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_BOOK_BY_PBL)) {
             preparedStatement.setString(1, publishKey);
             System.out.println(preparedStatement);
@@ -244,7 +242,7 @@ public class BookDAO implements IBookDAO {
 
     public List<Book> sortBookByAuthor(String nameAuthor) {
         List<Book> books = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SORT_BOOK_BY_AUTHOR)) {
             preparedStatement.setString(1, nameAuthor);
             System.out.println(preparedStatement);
@@ -272,7 +270,7 @@ public class BookDAO implements IBookDAO {
 
     public List<Book> sortBookByPosition(String namePosition) {
         List<Book> books = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SORT_BOOK_BY_POSITION)) {
             preparedStatement.setString(1, namePosition);
             System.out.println(preparedStatement);
@@ -299,7 +297,7 @@ public class BookDAO implements IBookDAO {
 
     public List<Book> sortBookByPublish(String namePublish) {
         List<Book> books = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SORT_BOOK_BY_PUBLISH)) {
             preparedStatement.setString(1, namePublish);
             System.out.println(preparedStatement);
@@ -327,7 +325,7 @@ public class BookDAO implements IBookDAO {
     public int selectQuantityAllBook(){
         int quantity = 0;
         try {
-            Connection connection = getConnection();
+            Connection connection = myConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUANTITY_BOOK);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
@@ -338,9 +336,50 @@ public class BookDAO implements IBookDAO {
         }return quantity;
     }
 
+    public List<Book> selectBookByType(String typeBook){
+        List<Book> bookList = new ArrayList<>();
+        try {
+            Connection connection = myConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TYPE_BOOK);
+            preparedStatement.setString(1, typeBook);
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("Name of Book");
+                String author = rs.getString("Author");
+                String describe = rs.getString("Describe");
+                String language = rs.getString("Language");
+                String status = rs.getString("Status");
+                String type = rs.getString("Type");
+                String publish = rs.getString("Publish");
+                String position = rs.getString("Position");
+                String yearPublish = rs.getString("Year");
+                String image = rs.getString("Image");
+                bookList.add(new Book(id, name, author, describe, language, status, type, publish, position, yearPublish, image));
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookList;
+    }
 
+    public int searchQuantityOfType(String type){
+        int quantityTypeBook = 0;
+        try{
+            Connection connection = myConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUANTITY_TYPE_BOOK);
+            preparedStatement.setString(1, type);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                int quantity = resultSet.getInt("Quantity");
+                quantityTypeBook = quantity;
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }return quantityTypeBook;
 
-
+    }
 
 }

@@ -1,16 +1,15 @@
 package service.position;
 
 import model.Position;
-import service.InterfaceDAO;
+import myConnection.MyConnection;
+import InterfaceDAO.InterfaceDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PositionDao implements InterfaceDAO<Position> {
-    private String jdbcURL = "jdbc:mysql://localhost:3306/librarymanagement1?useSSL=false";
-    private String jdbcUsername = "root";
-    private String jdbcPassword = "12345678";
+    private final MyConnection myConnection = new MyConnection();
 
     private static final String INSERT_POSITION_SQL = "INSERT INTO positions (name, describePosition, quantityLimit, quantity) VALUES (?, ?, ?, ?);";
     private static final String SELECT_POSITION_BY_ID = "select id,name,describePosition,quantityLimit,quantity from positions where id =?";
@@ -32,21 +31,11 @@ public class PositionDao implements InterfaceDAO<Position> {
     public PositionDao() {
     }
 
-    protected Connection getConnection() {
-        Connection connection = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
 
     @Override
     public void insert(Position position) throws SQLException {
         System.out.println(INSERT_POSITION_SQL);
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_POSITION_SQL)) {
+        try (Connection connection = myConnection.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_POSITION_SQL)) {
             preparedStatement.setString(1, position.getName());
             preparedStatement.setString(2, position.getDescribe());
             preparedStatement.setInt(3, position.getQuantityLimit());
@@ -61,7 +50,7 @@ public class PositionDao implements InterfaceDAO<Position> {
     @Override
     public Position select(int id) {
         Position position = null;
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_POSITION_BY_ID);) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
@@ -82,7 +71,7 @@ public class PositionDao implements InterfaceDAO<Position> {
     @Override
     public List<Position> selectAll() {
         List<Position> positions = new ArrayList<>();
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_POSITION);) {
             System.out.println(preparedStatement);
             ResultSet rs = preparedStatement.executeQuery();
@@ -108,7 +97,7 @@ public class PositionDao implements InterfaceDAO<Position> {
     @Override
     public boolean update(Position position) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_POSITION_SQL);) {
+        try (Connection connection = myConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_POSITION_SQL);) {
             statement.setString(1, position.getName());
             statement.setString(2, position.getDescribe());
             statement.setInt(3, position.getQuantityLimit());
@@ -122,7 +111,7 @@ public class PositionDao implements InterfaceDAO<Position> {
 
     public Position select(String name) {
         Position position = null;
-        try (Connection connection = getConnection();
+        try (Connection connection = myConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_POSITION_BY_NAME);) {
             preparedStatement.setString(1, name);
             System.out.println(preparedStatement);
@@ -142,7 +131,7 @@ public class PositionDao implements InterfaceDAO<Position> {
 
     public boolean plusQuantityPosition(Position position) throws SQLException{
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_POSITION_QUANTITY);) {
+        try (Connection connection = myConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_POSITION_QUANTITY);) {
             statement.setInt(1, position.getQuantity() + 1);
             statement.setInt(2, position.getId());
             rowUpdated = statement.executeUpdate() > 0;
@@ -152,7 +141,7 @@ public class PositionDao implements InterfaceDAO<Position> {
 
     public boolean minusQuantityPosition(Position position) throws SQLException{
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_POSITION_QUANTITY);) {
+        try (Connection connection = myConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_POSITION_QUANTITY);) {
             statement.setInt(1, position.getQuantity() - 1);
             statement.setInt(2, position.getId());
             rowUpdated = statement.executeUpdate() > 0;
@@ -162,7 +151,7 @@ public class PositionDao implements InterfaceDAO<Position> {
 
     public int searchIDPosition(int idBook) throws SQLException{
         int idPosition = 0;
-            try(Connection connection = getConnection();
+            try(Connection connection = myConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ID_POSITION);){
                 preparedStatement.setInt(1, idBook);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -174,7 +163,7 @@ public class PositionDao implements InterfaceDAO<Position> {
 
     public int getQuantityPosition(int idPosition) throws SQLException{
         int quantityPosition = 0;
-        try(Connection connection = getConnection();
+        try(Connection connection = myConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUANTITY_POSITION);){
             preparedStatement.setInt(1, idPosition);
             ResultSet resultSet = preparedStatement.executeQuery();

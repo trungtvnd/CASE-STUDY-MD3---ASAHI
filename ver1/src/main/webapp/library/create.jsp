@@ -20,11 +20,12 @@
 </center>
 
 <div align="center">
-    <c:if test="${requestScope['check']>10}">
-        <h2 style="color: red">Position is Full, Please choose another Position</h2>
-    </c:if>
+
     <c:if test="${requestScope['check']<=10}">
         <h2 style="color: blue">Create Successfully</h2>
+    </c:if>
+    <c:if test="${requestScope['check']>10}">
+        <h2 style="color: red">Position is Full, Please choose another Position</h2>
     </c:if>
     <form method="post">
         <table border="1" cellpadding="5">
@@ -49,7 +50,7 @@
                     </label>
                 </td>
                 <td>
-                    <button><a href="/authors?action=create">Add New Author</a></button>
+                    <button><a href="${pageContext.request.contextPath}/authors?action=create">Add New Author</a></button>
                 </td>
             </tr>
             <tr>
