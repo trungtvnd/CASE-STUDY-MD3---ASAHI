@@ -14,10 +14,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.sql.Array;
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.*;
+import java.text.*;
+
 
 @WebServlet(urlPatterns = "/books")
 public class BookServlet extends HttpServlet {
@@ -355,9 +362,12 @@ public class BookServlet extends HttpServlet {
     }
 
     private void createPost(HttpServletRequest req, HttpServletResponse resp) {
-        String name = new String(req.getParameter("name").getBytes(),StandardCharsets.UTF_8);
+//        System.out.println("Original name: " + req.getParameter("name"));
+
+        String name = new String(req.getParameter("name").getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8);
+//        System.out.println("Transform name: " + name);
         int author = Integer.parseInt(req.getParameter("author"));
-        String describe =new String(req.getParameter("describe").getBytes(),StandardCharsets.UTF_8) ;
+        String describe =new String(req.getParameter("describe").getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8) ;
         String language = req.getParameter("language");
         String status = req.getParameter("status");
         String type = req.getParameter("type");
@@ -370,6 +380,7 @@ public class BookServlet extends HttpServlet {
             int quantityAfterCreate = positionDao.getQuantityPosition(positionID) + 1;
             if (quantityAfterCreate <= 10) {
                 Book book = new Book(name, describe, language, status, type, yearPublish, image);
+
                 bookDAO.insertBook(book, author, positionID, publish);
                 positionDao.plusQuantityPosition(positionDao.select(positionID));
                 req.setAttribute("check", quantityAfterCreate);
@@ -395,7 +406,7 @@ public class BookServlet extends HttpServlet {
 
     public void searchBook(HttpServletRequest request, HttpServletResponse response) {
 
-        List<Book> books = bookDAO.searchBook("%" + request.getParameter("searchBook") + "%");
+        List<Book> books = bookDAO.searchBook("%" + new String(request.getParameter("searchBook").getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8) + "%");
         request.setAttribute("books", books);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("library/view1.jsp");
         try {

@@ -4,6 +4,7 @@ package service.book;
 import model.Book;
 import myConnection.MyConnection;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -193,7 +194,7 @@ public class BookDAO implements IBookDAO {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String name = rs.getString("Name of Book");
+                String name =rs.getString("Name of Book");
                 String author = rs.getString("Author");
                 String describe = rs.getString("Describe");
                 String language = rs.getString("Language");

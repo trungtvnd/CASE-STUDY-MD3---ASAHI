@@ -29,6 +29,9 @@
     </c:if>
     <form method="post">
         <table border="1" cellpadding="5">
+            <%
+                request.setCharacterEncoding("UTF-8");
+            %>
             <caption>
                 <h2>Add New Book</h2>
             </caption>
