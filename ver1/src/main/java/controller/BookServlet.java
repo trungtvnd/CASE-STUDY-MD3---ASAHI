@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -354,9 +355,9 @@ public class BookServlet extends HttpServlet {
     }
 
     private void createPost(HttpServletRequest req, HttpServletResponse resp) {
-        String name = req.getParameter("name");
+        String name = new String(req.getParameter("name").getBytes(),StandardCharsets.UTF_8);
         int author = Integer.parseInt(req.getParameter("author"));
-        String describe = req.getParameter("describe");
+        String describe =new String(req.getParameter("describe").getBytes(),StandardCharsets.UTF_8) ;
         String language = req.getParameter("language");
         String status = req.getParameter("status");
         String type = req.getParameter("type");
