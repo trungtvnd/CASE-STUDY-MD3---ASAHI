@@ -93,7 +93,7 @@ public class BookServlet extends HttpServlet {
         List<Author> authors = authorDAO.selectAll();
         req.setAttribute("authors", authors);
         req.setAttribute("positions", positions);
-        String type = ("%"+req.getParameter("type")+"%");
+        String type = ("%" + req.getParameter("type") + "%");
         List<Book> books = bookDAO.selectBookByType(type);
         int quantityOfType = bookDAO.searchQuantityOfType(type);
         boolean checkView = true;
@@ -224,8 +224,9 @@ public class BookServlet extends HttpServlet {
         int pageSize = 20;
         int endPage = 0;
         endPage = quantity / pageSize;
-        if(quantity % pageSize != 0){
-            endPage++;}
+        if (quantity % pageSize != 0) {
+            endPage++;
+        }
         List<Book> books = bookDAO.displayByPage(index, pageSize);
         req.setAttribute("books", books);
         req.setAttribute("checkView", checkView);
@@ -333,29 +334,34 @@ public class BookServlet extends HttpServlet {
     private void editPost(HttpServletRequest req, HttpServletResponse resp) {
         RequestDispatcher requestDispatcher;
         int id = Integer.parseInt(req.getParameter("id"));
-        String name = req.getParameter("name");
+        String name = new String(req.getParameter("name").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         int authorID = Integer.parseInt(req.getParameter("authorID"));
-        String describe = req.getParameter("describe");
-        String language = req.getParameter("language");
+        String describe = new String(req.getParameter("describe").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        String language = new String(req.getParameter("language").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         String status = req.getParameter("status");
         String type = req.getParameter("type");
         int publish = Integer.parseInt(req.getParameter("publish"));
         int positionID = Integer.parseInt(req.getParameter("positionID"));
         String yearPublish = req.getParameter("yearPublish");
         String image = req.getParameter("image");
-        try {
+
+        try{
             int idPosition = positionDao.searchIDPosition(id);
-            positionDao.minusQuantityPosition(positionDao.select(idPosition));
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            int quantityAfterEdit = positionDao.getQuantityPosition(positionID) + 1;
+            req.setAttribute("check", quantityAfterEdit);
+            if (quantityAfterEdit <= 10) {
+                positionDao.minusQuantityPosition(positionDao.select(idPosition));
+                Book book = new Book(id, name, describe, language, status, type, yearPublish, image);
+                try {
+                    bookDAO.updateBook(book, authorID, positionID, publish);
+                    positionDao.plusQuantityPosition(positionDao.select(positionID));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
         }
 
-        Book book = new Book(id, name, describe, language, status, type, yearPublish, image);
-        try {
-            bookDAO.updateBook(book, authorID, positionID, publish);
-            positionDao.plusQuantityPosition(positionDao.select(positionID));
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
         }
 
         requestDispatcher = req.getRequestDispatcher("library/edit.jsp");
@@ -369,10 +375,10 @@ public class BookServlet extends HttpServlet {
     private void createPost(HttpServletRequest req, HttpServletResponse resp) {
 //        System.out.println("Original name: " + req.getParameter("name"));
 
-        String name = new String(req.getParameter("name").getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8);
+        String name = new String(req.getParameter("name").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
 //        System.out.println("Transform name: " + name);
         int author = Integer.parseInt(req.getParameter("author"));
-        String describe =new String(req.getParameter("describe").getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8) ;
+        String describe = new String(req.getParameter("describe").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         String language = req.getParameter("language");
         String status = req.getParameter("status");
         String type = req.getParameter("type");
@@ -411,7 +417,7 @@ public class BookServlet extends HttpServlet {
 
     public void searchBook(HttpServletRequest request, HttpServletResponse response) {
 
-        List<Book> books = bookDAO.searchBook("%" + new String(request.getParameter("searchBook").getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8) + "%");
+        List<Book> books = bookDAO.searchBook("%" + new String(request.getParameter("searchBook").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8) + "%");
         request.setAttribute("books", books);
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("library/view1.jsp");
         try {

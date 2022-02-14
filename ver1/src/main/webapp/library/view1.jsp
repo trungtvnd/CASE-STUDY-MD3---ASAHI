@@ -312,7 +312,7 @@
         }
 
         .jumbotron {
-            background-image: url("https://mcdn.wallpapersafari.com/medium/55/22/P5ABoL.jpg");
+            background-image: url("/picture/sky2.jpg");
             background-repeat: no-repeat;
             background-position: center center;
             background-size: cover;
