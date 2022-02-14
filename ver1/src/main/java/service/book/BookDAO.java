@@ -382,4 +382,42 @@ public class BookDAO implements IBookDAO {
 
     }
 
+    public List<Book> displayByPage(int index, int size){
+        String SELECT_BOOK_BY_PAGE = "with x AS (SELECT  row_number() over(order by books.id)  'r',books.id, books.name 'Name Of Book', a.name 'Author', books.describle 'Describe', books.language 'Language', books.status 'Status', books.type 'Type',p.name 'Publish', positions.name 'Position', books.yearPublish 'Year', books.image 'Image'\n" +
+                "            FROM books \n" +
+                "            JOIN author a ON a.id = books.idAuthor\n" +
+                "            JOIN publish p ON p.id = books.idPublish\n" +
+                "            JOIN positions ON positions.id = books.idPosition)\n" +
+                "            select * FROM x  \n" +
+                "where r between ? and ?;";
+        List<Book> books = new ArrayList<>();
+        try {
+            Connection connection = myConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_BOOK_BY_PAGE);
+            System.out.println(SELECT_BOOK_BY_PAGE);
+          statement.setInt(1, (index*20 - 19) );
+          statement.setInt(2, index*size );
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("Name of Book");
+                String author = rs.getString("Author");
+                String describe = rs.getString("Describe");
+                String language = rs.getString("Language");
+                String status = rs.getString("Status");
+                String type = rs.getString("Type");
+                String publish = rs.getString("Publish");
+                String position = rs.getString("Position");
+                String yearPublish = rs.getString("Year");
+                String image = rs.getString("Image");
+                books.add(new Book(id, name, author, describe, language, status, type, publish, position, yearPublish, image));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
+
 }

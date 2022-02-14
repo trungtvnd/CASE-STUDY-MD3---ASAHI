@@ -15,7 +15,7 @@
 <center>
     <h1>User Management</h1>
     <h2>
-        <a href="books?action=books">List All Books</a>
+        <a href="books?index=1">List All Books</a>
     </h2>
 </center>
 

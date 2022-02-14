@@ -324,6 +324,13 @@
             background-position: center center;
             background-size: cover;
         }
+        img {
+            transform: scale(1);
+            transition: all 0.5s;
+        }
+        img:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -354,7 +361,7 @@
                 </li>
                 <li>
                     <div class="dropdown">
-                        <button class="dropbtn"><a href="${pageContext.request.contextPath}/books" style="color: white ;text-decoration: none;">Books <span class="glyphicon glyphicon-th-list "></span></a></button>
+                        <button class="dropbtn"><a href="${pageContext.request.contextPath}/books?index=1" style="color: white ;text-decoration: none;">Books <span class="glyphicon glyphicon-th-list "></span></a></button>
                     </div>
                 </li>
 
@@ -364,7 +371,7 @@
                         <div class="dropdown-content">
                             <c:forEach items="${publishes}" var="publish">
                                 <label>
-                                    <a href="/books?action=sortByPublish&sortByPublish=${publish.getName()}">${publish.getName()}</a>
+                                    <a href="/books?action=sortByPublish&sortByPublish=${publish.getName()}&name=${account.name}">${publish.getName()}</a>
                                 </label>
 
                             </c:forEach>
@@ -378,7 +385,7 @@
                         <div class="dropdown-content">
                             <c:forEach items="${positions}" var="position">
                                 <label>
-                                    <a href="${pageContext.request.contextPath}/books?action=sortByPosition&sortByPosition=${position.getName()}">${position.getName()}</a>
+                                    <a href="${pageContext.request.contextPath}/books?action=sortByPosition&sortByPosition=${position.getName()}&name=${account.name}">${position.getName()}</a>
                                 </label>
                             </c:forEach>
                         </div>
@@ -397,7 +404,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4">
-            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Political & Law';" style="cursor:pointer;">
+            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Political&name=${account.name}';" style="cursor:pointer;">
                 <div class="panel-heading">Political & Law </div>
                 <div class="panel-body"><img
                         src="https://1.bp.blogspot.com/-RPdEvwiXsso/T8Ncc2PWQ9I/AAAAAAAAAE4/7n9szTDA9hQ/s1600/law.jpg"
@@ -406,7 +413,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Science ';" style="cursor:pointer;">
+            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Science&name=${account.name} ';" style="cursor:pointer;">
                 <div class="panel-heading">Science</div>
                 <div class="panel-body"><img src="https://cdn1.byjus.com/wp-content/uploads/2020/09/Science.png"
                                              class="img-responsive" style="width:100%" alt="Image"></div>
@@ -414,7 +421,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Economic';" style="cursor:pointer;">
+            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Economic&name=${account.name}';" style="cursor:pointer;">
                 <div class="panel-heading">Economic</div>
                 <div class="panel-body"><img
                         src="https://cdn.vietnambiz.vn/2019/8/30/001372acd7d3136c30eb34-1567136819514101698650-15671369070471788017558.png"
@@ -429,7 +436,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-4">
-            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Literature';" style="cursor:pointer;">
+            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Literature&name=${account.name}';" style="cursor:pointer;">
                 <div class="panel-heading">Literature & Art</div>
                 <div class="panel-body"><img
                         src="https://continuingstudies.uvic.ca/upload/Arts/News/ARTS-How-arts-benefits-us-all_original.jpg"
@@ -438,7 +445,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Cultural';" style="cursor:pointer;">
+            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Cultural&name=${account.name}';" style="cursor:pointer;">
                 <div class="panel-heading">Cultural & Historical</div>
                 <div class="panel-body"><img
                         src="https://www.re-thinkingthefuture.com/wp-content/uploads/2020/01/A471-RICH-CULTURAL-HISTORY-OF-DELHI-IMAGE-2-1024x699.jpg"
@@ -447,7 +454,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Curriculum';" style="cursor:pointer;">
+            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Curriculum&name=${account.name}';" style="cursor:pointer;">
                 <div class="panel-heading">Curriculum</div>
                 <div class="panel-body"><img
                         src="https://previews.123rf.com/images/dizanna/dizanna1612/dizanna161200573/68077083-curriculum-word-cloud-concetto-di-business-dell-educazione.jpg"
@@ -456,7 +463,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Story';" style="cursor:pointer;">
+            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Story&name=${account.name}';" style="cursor:pointer;">
                 <div class="panel-heading">Story & Novel</div>
                 <div class="panel-body"><img src="https://mastersreview.com/files/2016/05/story-today-2-1-768x414.jpg"
                                              class="img-responsive" style="width:100%" alt="Image"></div>
@@ -464,7 +471,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Mentality';" style="cursor:pointer;">
+            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Mentality&name=${account.name}';" style="cursor:pointer;">
                 <div class="panel-heading">Mentality, Spirituality & Religion</div>
                 <div class="panel-body"><img src="https://nghiencuuquocte.org/wp-content/uploads/2020/03/religions.jpg"
                                              class="img-responsive" style="width:100%" alt="Image"></div>
@@ -472,7 +479,7 @@
             </div>
         </div>
         <div class="col-sm-4">
-            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Children';" style="cursor:pointer;">
+            <div class="panel panel-primary" onclick="location.href='${pageContext.request.contextPath}/books?action=sortByType&type=Children&name=${account.name}';" style="cursor:pointer;">
                 <div class="panel-heading">Children</div>
                 <div class="panel-body"><img
                         src="https://img.freepik.com/free-vector/children-playing-park_29937-3636.jpg?w=996"
@@ -485,13 +492,10 @@
 <br><br>
 
 <footer class="container-fluid text-center">
-    <p>Online Store Copyright</p>
-    <form class="form-inline">Get deals:
-        <label>
-            <input type="email" class="form-control" size="50" placeholder="Email Address">
-        </label>
-        <button type="button" class="btn btn-danger">Sign Up</button>
-    </form>
+    <p>ASAHI LIBRARY copyright</p>
+    <p>Address: Lô 1 KĐT Mỹ Đình 2, Hà Nội</p>
+    <p>Phone: 0123456789 </p>
+
 </footer>
 </body>
 </html>

@@ -30,9 +30,6 @@ public class RegisterServlet  extends HttpServlet {
         }
         try {
             switch (action) {
-//                case "edit":
-//                    editGet(req, resp);
-//                    break;
                 case "create":
                     createGet(req, resp);
                     break;
@@ -79,7 +76,6 @@ public class RegisterServlet  extends HttpServlet {
         User user = userDAO.selectUserByIDEmail(searchIDAccount(searchUsername(id)));
         boolean check = true;
         req.setAttribute("checkEdit", check);
-//        req.setAttribute("userEdit", user);
         req.setAttribute("user", user);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("user/viewDetail.jsp");

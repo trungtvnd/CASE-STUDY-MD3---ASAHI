@@ -128,7 +128,7 @@ public class BookServlet extends HttpServlet {
     private void joinPosition(HttpServletRequest req, HttpServletResponse resp) {
         List<JoinPosition> joinPositions = joinPositionDAO.selectAllPosition();
         req.setAttribute("joinPositions", joinPositions);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("joinPosition/view1.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("joinPosition/view.jsp");
         try {
             requestDispatcher.forward(req, resp);
         } catch (ServletException | IOException e) {
@@ -210,18 +210,21 @@ public class BookServlet extends HttpServlet {
     }
 
     private void listBook(HttpServletRequest req, HttpServletResponse resp) {
-        List<Position> positions = positionDao.selectAll();
-        List<Publish> publishes = publishDAO.selectAll();
-        List<Author> authors = authorDAO.selectAll();
-        req.setAttribute("authors", authors);
-        req.setAttribute("positions", positions);
-        req.setAttribute("publishes", publishes);
-        List<Book> books = bookDAO.selectAllBook();
+        int index = Integer.parseInt(req.getParameter("index"));
         boolean checkView = true;
         int quantity = bookDAO.selectQuantityAllBook();
+        int pageSize = 20;
+        int endPage = 0;
+        endPage = quantity / pageSize;
+        if(quantity % pageSize != 0){
+            endPage++;}
+        List<Book> books = bookDAO.displayByPage(index, pageSize);
         req.setAttribute("books", books);
         req.setAttribute("checkView", checkView);
         req.setAttribute("quantityAllBook", quantity);
+        req.setAttribute("endPage", endPage);
+
+
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view1.jsp");
         try {
             requestDispatcher.forward(req, resp);
@@ -259,12 +262,14 @@ public class BookServlet extends HttpServlet {
         req.setAttribute("authors", authors);
         req.setAttribute("publishes", publishes);
         req.setAttribute("positions", positions);
+        String username = req.getParameter("name");
         List<Book> books = bookDAO.sortBookByPublish(namePublish);
         boolean check = true;
         int quantity = joinPositionDAO.selectQuantityPublish(namePublish);
         req.setAttribute("books", books);
         req.setAttribute("checkPublish", check);
         req.setAttribute("quantityPublish", quantity);
+        req.setAttribute("username", username);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("library/view1.jsp");
         try {
             requestDispatcher.forward(req, resp);

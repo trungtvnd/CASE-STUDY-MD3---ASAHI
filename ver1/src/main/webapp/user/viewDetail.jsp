@@ -119,14 +119,14 @@
                                     href="${pageContext.request.contextPath}/register?action=editUser&id=${user.id}">EDIT
                                 PROFILE</a></button>
 
-                        <button class="btn btn-primary profile-button" type="button"><a
-                                style="color: white; text-decoration: none"
-                                href="${pageContext.request.contextPath}/register?action=createUser&username=${username}">CREATE
-                            PROFILE</a></button>
+                            <button class="btn btn-primary profile-button" type="button"><a
+                                    style="color: white; text-decoration: none"
+                                    href="${pageContext.request.contextPath}/register?action=createUser&username=${username}">CREATE
+                                PROFILE</a></button>
                         </div>
                     </div>
                 </c:if>
-                <c:if test="${requestScope['checkView'] == true}">
+                <c:if test="${requestScope['user'] != null}">
                     <div class="mt-3 text-center">
                         <div class="mt-3 text-center">
                             <button class="btn btn-primary profile-button" type="button"><a
@@ -139,10 +139,10 @@
                 <c:if test="${requestScope['checkEdit'] == true}">
                     <div class="mt-3 text-center">
                         <div class="mt-3 text-center">
-                            <button disabled="disabled" class="btn btn-primary profile-button" type="button"><a
-                                    style="color: white; text-decoration: none"
-                                    href="${pageContext.request.contextPath}/register?action=editUser&id=${user.id}">EDIT
-                                PROFILE</a></button>
+<%--                            <button disabled="disabled" class="btn btn-primary profile-button" type="button"><a--%>
+<%--                                    style="color: white; text-decoration: none"--%>
+<%--                                    href="${pageContext.request.contextPath}/register?action=editUser&id=${user.id}">EDIT--%>
+<%--                                PROFILE</a></button>--%>
                         </div>
                     </div>
                 </c:if>

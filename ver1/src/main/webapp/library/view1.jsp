@@ -331,6 +331,13 @@
         .input-group.md-form.form-sm.form-2 input.red-border {
             border: 1px solid #ef9a9a;
         }
+        img {
+            transform: scale(1);
+            transition: all 0.5s;
+        }
+        img:hover {
+            transform: scale(1.1);
+        }
 
     </style>
 </head>
@@ -356,7 +363,7 @@
             <ul class="nav navbar-nav">
                 <li class="active">
                     <div class="dropdown">
-                        <button  class="dropbtn"><a style="text-decoration: none; color: white" href="${pageContext.request.contextPath}/login?action=home">Home </a><span class="glyphicon glyphicon-home "></span></button>
+                        <button  class="dropbtn"><a style="text-decoration: none; color: white" href="${pageContext.request.contextPath}/login?action=home&name=${username}">Home </a><span class="glyphicon glyphicon-home "></span></button>
                     </div>
                     <div class="dropdown">
                         <button class="dropbtn">
@@ -366,7 +373,7 @@
                     </div>
                     <div class="dropdown">
                         <button class="dropbtn">
-                            <a class="httpDirect" href="${pageContext.request.contextPath}/books?action=books"
+                            <a class="httpDirect" href="${pageContext.request.contextPath}/books?action=books&index=1"
                                style="color: white; text-decoration: none;">
                                 <span
                                         class="glyphicon glyphicon-log-out"></span> Back To Book List</a></button>
@@ -439,6 +446,16 @@
     </div>
 </div>
 <br><br><br>
+<div style="text-align: center; text-decoration: none">
+    <c:forEach begin="1" end="${endPage}" var="i">
+        <button class="btn btn-info"><a href="${pageContext.request.contextPath}/books?index=${i}">${i}</a></button>
+    </c:forEach>
+</div>
+    <footer class="container-fluid text-center">
+
+
+    </footer>
+
 
 </body>
 </html>

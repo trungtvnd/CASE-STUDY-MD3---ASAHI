@@ -4,6 +4,7 @@ import model.Account;
 import model.Author;
 import model.Position;
 import model.Publish;
+import regex.ValidateData;
 import service.account.AccountDAO;
 import service.author.AuthorDAO;
 import service.book.BookDAO;
@@ -26,6 +27,7 @@ public class LoginServlet extends HttpServlet {
     private final PublishDAO publishDAO = new PublishDAO();
     private final PositionDao positionDao = new PositionDao();
     private final BookDAO bookDAO = new BookDAO();
+    private final ValidateData validate = new ValidateData();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,12 +46,14 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void backHome(HttpServletRequest req, HttpServletResponse resp) {
+        String username = req.getParameter("username");
         List<Publish> publishes = publishDAO.selectAll();
         List<Position> positions = positionDao.selectAll();
         List<Author> authors = authorDAO.selectAll();
         req.setAttribute("authors", authors);
         req.setAttribute("positions", positions);
         req.setAttribute("publishes", publishes);
+        req.setAttribute("username", username );
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("login/home1.jsp");
         try {
             requestDispatcher.forward(req, resp);
@@ -85,8 +89,10 @@ public class LoginServlet extends HttpServlet {
         RequestDispatcher requestDispatcher;
         String user = request.getParameter("username");
         String pass = request.getParameter("password");
+        String tmp = "password or name is incorrect";
 
         boolean accountCheck = false;
+        if (ValidateData.validateName(user) && ValidateData.validatePassword(pass)){
         for (Account account : accounts) {
             if ((account.getName().equals(user)) && (account.getPassword().equals(pass))) {
                 accountCheck = true;
@@ -104,8 +110,9 @@ public class LoginServlet extends HttpServlet {
                     e.printStackTrace();
                 }
             }
-        }
+        }}
         if (!accountCheck) {
+            request.setAttribute("mes" , tmp);
             requestDispatcher = request.getRequestDispatcher("login/login.jsp");
             try {
                 requestDispatcher.forward(request, response);
